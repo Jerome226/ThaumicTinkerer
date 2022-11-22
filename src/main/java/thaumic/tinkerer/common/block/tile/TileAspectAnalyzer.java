@@ -40,7 +40,7 @@ import java.util.Map;
 
 @Optional.InterfaceList({
         @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
-        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
         @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 })
 public class TileAspectAnalyzer extends TileEntity implements IInventory, SimpleComponent, IPeripheral, IMovableTile {
