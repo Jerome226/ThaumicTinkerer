@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
@@ -43,9 +44,7 @@ import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
-@Optional.InterfaceList({
-    @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
-})
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileEnchanter extends TileEntity implements ISidedInventory, IMovableTile {
 
     private static final String TAG_ENCHANTS = "enchantsIntArray";
@@ -487,14 +486,14 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
         return false;
     }
 
-    @Optional.Method(modid = "appliedenergistics2")
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
-    @Optional.Method(modid = "appliedenergistics2")
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {
 
     }
