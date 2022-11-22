@@ -11,6 +11,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
+})
 public class TileEntityMobilizer extends TileEntity {
 
     public boolean linked;
