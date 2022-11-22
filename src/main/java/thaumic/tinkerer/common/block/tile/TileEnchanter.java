@@ -43,6 +43,9 @@ import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
+})
 public class TileEnchanter extends TileEntity implements ISidedInventory, IMovableTile {
 
     private static final String TAG_ENCHANTS = "enchantsIntArray";
@@ -484,11 +487,13 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
         return false;
     }
 
+    @Optional.Method(modid = "appliedenergistics2")
     @Override
     public boolean prepareToMove() {
         return true;
     }
 
+    @Optional.Method(modid = "appliedenergistics2")
     @Override
     public void doneMoving() {
 
