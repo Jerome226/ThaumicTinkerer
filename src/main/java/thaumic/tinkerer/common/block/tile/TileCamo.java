@@ -21,6 +21,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
+})
 public class TileCamo extends TileEntity implements IMovableTile {
 
     private static final String TAG_CAMO = "camo";
@@ -74,11 +77,13 @@ public class TileCamo extends TileEntity implements IMovableTile {
         worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
     }
 
+    @Optional.Method(modid = "appliedenergistics2")
     @Override
     public boolean prepareToMove() {
         return true;
     }
 
+    @Optional.Method(modid = "appliedenergistics2")
     @Override
     public void doneMoving() {
 
