@@ -15,6 +15,7 @@
 package thaumic.tinkerer.common.block.tile;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -41,6 +42,7 @@ import java.util.Map;
 
 /*import thaumic.tinkerer.common.compat.TinkersConstructCompat;*/
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileRepairer extends TileEntity implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
     private static final Map<Aspect, Integer> repairValues = new HashMap();
@@ -373,11 +375,13 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {
 
     }

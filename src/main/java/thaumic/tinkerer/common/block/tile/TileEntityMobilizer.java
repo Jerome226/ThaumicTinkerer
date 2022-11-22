@@ -3,6 +3,7 @@ package thaumic.tinkerer.common.block.tile;
 import appeng.api.AEApi;
 import appeng.api.IAppEngApi;
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +13,9 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 
 @Optional.InterfaceList({
-    @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
+        @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2"),
+        @Optional.Interface(iface = "appeng.api.AEApi", modid = "appliedenergistics2"),
+        @Optional.Interface(iface = "appeng.api.IAppEngApi", modid = "appliedenergistics2")
 })
 public class TileEntityMobilizer extends TileEntity {
 
