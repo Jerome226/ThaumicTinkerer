@@ -41,6 +41,7 @@ import java.util.Map;
 @Optional.InterfaceList({
         @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+        @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 })
 public class TileAspectAnalyzer extends TileEntity implements IInventory, SimpleComponent, IPeripheral, IMovableTile {
 
@@ -244,11 +245,13 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {
 
     }
