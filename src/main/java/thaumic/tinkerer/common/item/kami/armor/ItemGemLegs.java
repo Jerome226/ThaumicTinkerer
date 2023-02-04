@@ -14,15 +14,12 @@
  */
 package thaumic.tinkerer.common.item.kami.armor;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -45,7 +42,6 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
 
     public ItemGemLegs() {
         super(2);
-
     }
 
     @Override
@@ -53,18 +49,9 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
         return true;
     }
 
-    @Override
-    void tickPlayer(EntityPlayer player) {
-        ItemStack armor = player.getCurrentArmor(1);
-        if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player))
-            return;
-        PotionEffect effect=player.getActivePotionEffect(Potion.fireResistance);
-        if (effect != null && effect.duration <= 202)
-            effect.duration = 202;
-        else
-            player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 202, 10, true));
+    private void setNearBrightNitor(EntityPlayer player) {
         ItemBrightNitor.meta = 1;
-        ((ItemBrightNitor)ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)).onUpdate(null, player.worldObj, player, 0, false);
+        ((ItemBrightNitor) ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)).onUpdate(null, player.worldObj, player, 0, false);
         ItemBrightNitor.meta = 0;
 
         int x = (int) Math.floor(player.posX);
@@ -84,6 +71,29 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
         }
     }
 
+    private void addPotionEffect(EntityPlayer player, Potion potion, int duration, int level) {
+        PotionEffect effect = player.getActivePotionEffect(potion);
+        if (effect != null && effect.duration < duration)
+            effect.duration = duration;
+        else
+            player.addPotionEffect(new PotionEffect(potion.id, duration, level, true));
+    }
+
+
+    @Override
+    void tickPlayer(EntityPlayer player) {
+        if (player.ticksExisted % 5 == 0) {
+            ItemStack armor = player.getCurrentArmor(1);
+            if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player))
+                return;
+
+            if (player.isBurning()) player.heal(0.5F);
+            addPotionEffect(player, Potion.fireResistance, 119, 10);
+            setNearBrightNitor(player);
+
+        }
+    }
+
     @Override
     public String getItemName() {
         return LibItemNames.ICHOR_LEGS_GEM;
@@ -91,28 +101,16 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
+        if (!ConfigHandler.enableKami)
             return null;
         return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHORCLOTH_LEGS_GEM, new AspectList().add(Aspect.FIRE, 2).add(Aspect.HEAL, 1).add(Aspect.GREED, 1).add(Aspect.ENERGY, 1), 17, 9, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ARMOR)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHORCLOTH_LEGS_GEM), new ResearchPage("1"));
+            .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHORCLOTH_LEGS_GEM), new ResearchPage("1"));
 
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHORCLOTH_LEGS_GEM, new ItemStack(this), 13, new AspectList().add(Aspect.FIRE, 50).add(Aspect.ARMOR, 32).add(Aspect.HEAL, 32).add(Aspect.ENERGY, 32).add(Aspect.LIGHT, 64).add(Aspect.GREED, 16).add(Aspect.ELDRITCH, 16), (new ItemStack(ThaumicTinkerer.registry.getItemFromClassAndName(ItemIchorclothArmor.class, LibItemNames.ICHOR_LEGS))),
-                new ItemStack(Items.diamond, 1), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemFocusPrimal), new ItemStack(ConfigItems.itemThaumonomicon), new ItemStack(Items.golden_chestplate), new ItemStack(Items.potionitem, 1, 8195), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusSmelt.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)), new ItemStack(Items.lava_bucket), new ItemStack(Items.fire_charge), new ItemStack(Items.blaze_rod));
-
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onDamageTaken(LivingHurtEvent event) {
-        if (event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
-            if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem() == this && event.source.isFireDamage() && ThaumicTinkerer.proxy.armorStatus(player)) {
-                event.setCanceled(true);
-                player.heal(event.ammount);
-            }
-        }
+            new ItemStack(Items.diamond, 1), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemFocusPrimal), new ItemStack(ConfigItems.itemThaumonomicon), new ItemStack(Items.golden_chestplate), new ItemStack(Items.potionitem, 1, 8195), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusSmelt.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)), new ItemStack(Items.lava_bucket), new ItemStack(Items.fire_charge), new ItemStack(Items.blaze_rod));
     }
 }

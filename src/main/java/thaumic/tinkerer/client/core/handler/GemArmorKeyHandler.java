@@ -19,7 +19,7 @@ import thaumic.tinkerer.common.item.kami.armor.ItemIchorclothArmorAdv;
 @SideOnly(Side.CLIENT)
 public class GemArmorKeyHandler {
 
-    static KeyBinding SpecialAbility = new KeyBinding("ttmisc.toggleArmor", Keyboard.KEY_U, "ttmisc.keyCategory");
+    static KeyBinding SpecialAbility = new KeyBinding("ttmisc.toggleArmor", Keyboard.KEY_NONE, "ttmisc.keyCategory");
 
     public GemArmorKeyHandler() {
         FMLCommonHandler.instance().bus().register(this);
