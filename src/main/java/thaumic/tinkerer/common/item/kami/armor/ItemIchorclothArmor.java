@@ -115,7 +115,7 @@ public class ItemIchorclothArmor extends ItemArmor implements IVisDiscountGear, 
 
     @Override
     public int getVisDiscount(ItemStack arg0, EntityPlayer arg1, Aspect arg2) {
-        return 5;
+        return 6;
     }
 
     @Override
