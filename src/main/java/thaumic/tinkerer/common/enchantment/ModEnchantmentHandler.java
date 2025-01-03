@@ -1,21 +1,20 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [29 Sep 2013, 11:52:00 (GMT)]
  */
 package thaumic.tinkerer.common.enchantment;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,12 +30,10 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.lib.LibEnchantIDs;
 
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import thaumic.tinkerer.common.lib.LibEnchantIDs;
 
 public class ModEnchantmentHandler {
 
@@ -53,9 +50,7 @@ public class ModEnchantmentHandler {
             EntityLivingBase attacker = (EntityLivingBase) event.source.getEntity();
             ItemStack heldItem = attacker.getHeldItem();
 
-            if (heldItem == null)
-                return;
-
+            if (heldItem == null) return;
 
             if (attacker instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) attacker;
@@ -63,18 +58,20 @@ public class ModEnchantmentHandler {
                 ItemStack legs = player.getCurrentArmor(1);
                 int pounce = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.pounce, legs);
                 if (pounce > 0) {
-                    if (player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY) - 1, (int) Math.floor(player.posZ)) == net.minecraft.init.Blocks.air) {
+                    if (player.worldObj.getBlock(
+                            (int) Math.floor(player.posX),
+                            (int) Math.floor(player.posY) - 1,
+                            (int) Math.floor(player.posZ)) == net.minecraft.init.Blocks.air) {
 
                         event.ammount *= 1 + (.25 * pounce);
                     }
                 }
-
             }
 
             int finalStrike = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.finalStrike, heldItem);
             if (finalStrike > 0) {
                 Random rand = new Random();
-                if (rand.nextInt(20 - finalStrike) == 0) {
+                if ((finalStrike >= 19 || rand.nextInt(20 - finalStrike) == 0)) {
                     event.ammount *= 3;
                 }
             }
@@ -94,7 +91,9 @@ public class ModEnchantmentHandler {
                 if (heldItem.stackTagCompound == null) {
                     heldItem.stackTagCompound = new NBTTagCompound();
                 }
-                UUID lastTarget = new UUID(heldItem.stackTagCompound.getLong(NBTLastTarget), heldItem.stackTagCompound.getLong(NBTLastTarget2));
+                UUID lastTarget = new UUID(
+                        heldItem.stackTagCompound.getLong(NBTLastTarget),
+                        heldItem.stackTagCompound.getLong(NBTLastTarget2));
                 int successiveStrikes = heldItem.stackTagCompound.getInteger(NBTSuccessiveStrike);
                 UUID entityId = event.entityLiving.getUniqueID();
 
@@ -131,25 +130,38 @@ public class ModEnchantmentHandler {
 
         if (event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
-            int slowfall = EnchantmentHelper.getMaxEnchantmentLevel(LibEnchantIDs.idSlowFall, player.inventory.armorInventory);
-            if (slowfall > 0 && !event.entityLiving.isSneaking() && event.entityLiving.motionY < min && event.entityLiving.fallDistance >= 2.9) {
+            int slowfall = EnchantmentHelper
+                    .getMaxEnchantmentLevel(LibEnchantIDs.idSlowFall, player.inventory.armorInventory);
+            if (slowfall > 0 && !event.entityLiving.isSneaking()
+                    && event.entityLiving.motionY < min
+                    && event.entityLiving.fallDistance >= 2.9) {
                 event.entityLiving.motionY /= 1 + slowfall * 0.33F;
                 event.entityLiving.fallDistance = Math.max(2.9F, player.fallDistance - slowfall / 3F);
 
-                player.worldObj.spawnParticle("cloud", player.posX + 0.25, player.posY - 1, player.posZ + 0.25, -player.motionX, player.motionY, -player.motionZ);
+                player.worldObj.spawnParticle(
+                        "cloud",
+                        player.posX + 0.25,
+                        player.posY - 1,
+                        player.posZ + 0.25,
+                        -player.motionX,
+                        player.motionY,
+                        -player.motionZ);
             }
 
             ItemStack heldItem = player.getHeldItem();
 
-            if (heldItem == null)
-                return;
+            if (heldItem == null) return;
 
             int quickDraw = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.idQuickDraw, heldItem);
             ItemStack usingItem = player.itemInUse;
-            int time = player.itemInUseCount;
-            if (quickDraw > 0 && usingItem != null && usingItem.getItem() instanceof ItemBow)
-                if ((usingItem.getItem().getMaxItemUseDuration(usingItem) - time) % (6 - quickDraw) == 0)
-                    player.itemInUseCount = time - 1;
+            if (quickDraw > 0 && usingItem != null && usingItem.getItem() instanceof ItemBow) {
+                int speedup = quickDraw / 6;
+                quickDraw = quickDraw % 6;
+                if (player.itemInUseCount % (6 - quickDraw) == 0) {
+                    speedup++;
+                }
+                player.itemInUseCount = Math.max(2, player.itemInUseCount - speedup);
+            }
         }
     }
 
@@ -157,10 +169,10 @@ public class ModEnchantmentHandler {
     public void onPlayerJump(LivingJumpEvent event) {
         if (event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
-            int boost = EnchantmentHelper.getMaxEnchantmentLevel(LibEnchantIDs.idAscentBoost, player.inventory.armorInventory);
+            int boost = EnchantmentHelper
+                    .getMaxEnchantmentLevel(LibEnchantIDs.idAscentBoost, player.inventory.armorInventory);
 
-            if (boost >= 1 && !player.isSneaking())
-                player.motionY *= (boost + 2) / 2D;
+            if (boost >= 1 && !player.isSneaking()) player.motionY *= (boost + 2) / 2D;
         }
     }
 
@@ -170,7 +182,15 @@ public class ModEnchantmentHandler {
             ItemStack boots = ((EntityPlayer) event.entityLiving).getCurrentArmor(0);
             int shockwave = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.shockwave, boots);
             if (shockwave > 0) {
-                for (EntityLivingBase target : (List<EntityLivingBase>) event.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(event.entity.posX - 10, event.entity.posY - 10, event.entity.posZ - 10, event.entity.posX + 10, event.entity.posY + 10, event.entity.posZ + 10))) {
+                for (EntityLivingBase target : (List<EntityLivingBase>) event.entity.worldObj.getEntitiesWithinAABB(
+                        EntityLivingBase.class,
+                        AxisAlignedBB.getBoundingBox(
+                                event.entity.posX - 10,
+                                event.entity.posY - 10,
+                                event.entity.posZ - 10,
+                                event.entity.posX + 10,
+                                event.entity.posY + 10,
+                                event.entity.posZ + 10))) {
                     if (target != event.entity && event.distance > 3) {
                         target.attackEntityFrom(DamageSource.fall, .1F * shockwave * event.distance);
                     }
@@ -196,8 +216,7 @@ public class ModEnchantmentHandler {
     public void onGetHarvestSpeed(PlayerEvent.BreakSpeed event) {
         ItemStack heldItem = event.entityPlayer.getHeldItem();
 
-        if (heldItem == null)
-            return;
+        if (heldItem == null) return;
 
         int shatter = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.shatter, heldItem);
         if (shatter > 0) {
@@ -231,7 +250,6 @@ public class ModEnchantmentHandler {
         if (desintegrateApplies || autoSmeltApplies) {
             heldItem.damageItem(1, event.entityPlayer);
             event.newSpeed = Float.MAX_VALUE;
-        } else if (desintegrate > 0 || autoSmelt > 0)
-            event.setCanceled(true);
+        } else if (desintegrate > 0 || autoSmelt > 0) event.setCanceled(true);
     }
 }

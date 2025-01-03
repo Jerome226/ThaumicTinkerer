@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Jan 10, 2014, 5:45:28 PM (GMT)]
@@ -18,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.container.ContainerPlayerInv;
 import thaumic.tinkerer.common.block.tile.container.slot.kami.SlotSkyPearl;
@@ -33,8 +31,7 @@ public class ContainerWarpGate extends ContainerPlayerInv {
         this.gate = gate;
 
         for (int y = 0; y < 2; y++)
-            for (int x = 0; x < 5; x++)
-                addSlotToContainer(new SlotSkyPearl(gate, y * 5 + x, 30 + x * 25, 27 + y * 25));
+            for (int x = 0; x < 5; x++) addSlotToContainer(new SlotSkyPearl(gate, y * 5 + x, 30 + x * 25, 27 + y * 25));
 
         initPlayerInv();
     }
@@ -56,18 +53,15 @@ public class ContainerWarpGate extends ContainerPlayerInv {
                 var3 = var5.copy();
 
                 if (par2 < 10) {
-                    if (!mergeItemStack(var5, 10, 36, false))
-                        return null;
-                } else if (var3.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class) && !mergeItemStack(var5, 0, 10, false))
+                    if (!mergeItemStack(var5, 10, 36, false)) return null;
+                } else if (var3.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class)
+                        && !mergeItemStack(var5, 0, 10, false))
                     return null;
 
-                if (var5.stackSize == 0)
-                    var4.putStack(null);
-                else
-                    var4.onSlotChanged();
+                if (var5.stackSize == 0) var4.putStack(null);
+                else var4.onSlotChanged();
 
-                if (var5.stackSize == var3.stackSize)
-                    return null;
+                if (var5.stackSize == var3.stackSize) return null;
 
                 var4.onPickupFromSlot(par1EntityPlayer, var5);
             }
@@ -75,5 +69,4 @@ public class ContainerWarpGate extends ContainerPlayerInv {
 
         return var3;
     }
-
 }

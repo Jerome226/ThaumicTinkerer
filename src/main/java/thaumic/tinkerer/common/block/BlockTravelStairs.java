@@ -1,6 +1,7 @@
 package thaumic.tinkerer.common.block;
 
-import net.minecraft.block.Block;
+import java.util.ArrayList;
+
 import net.minecraft.block.BlockStairs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,20 +11,16 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.quartz.BlockDarkQuartz;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.lib.LibBlockNames;
-import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCraftingBenchRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipeMulti;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 /**
  * Created by Katrina on 16/04/2015.
@@ -31,7 +28,7 @@ import java.util.ArrayList;
 public class BlockTravelStairs extends BlockStairs implements ITTinkererBlock {
 
     public BlockTravelStairs() {
-        super(ConfigBlocks.blockCosmeticSolid,2);
+        super(ConfigBlocks.blockCosmeticSolid, 2);
         setCreativeTab(ModCreativeTab.INSTANCE);
     }
 
@@ -73,21 +70,26 @@ public class BlockTravelStairs extends BlockStairs implements ITTinkererBlock {
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         return new ThaumicTinkererRecipeMulti(
-                new ThaumicTinkererCraftingBenchRecipe("PAVETRAVEL", new ItemStack(this, 4),
-                        "  Q", " QQ", "QQQ",
-                        'Q', new ItemStack(ConfigBlocks.blockCosmeticSolid,1,2))
-        );
+                new ThaumicTinkererCraftingBenchRecipe(
+                        "PAVETRAVEL",
+                        new ItemStack(this, 4),
+                        "  Q",
+                        " QQ",
+                        "QQQ",
+                        'Q',
+                        new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 2)));
     }
+
     @Override
     public void onEntityWalking(World world, int x, int y, int z, Entity e) {
-        if(world.getBlock(x, y, z) == this) {
-            if(e instanceof EntityLivingBase) {
-                if(world.isRemote) {
+        if (world.getBlock(x, y, z) == this) {
+            if (e instanceof EntityLivingBase) {
+                if (world.isRemote) {
                     Thaumcraft.proxy.blockSparkle(world, x, y, z, '?', 5);
                 }
 
-                ((EntityLivingBase)e).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 40, 1));
-                ((EntityLivingBase)e).addPotionEffect(new PotionEffect(Potion.jump.id, 40, 0));
+                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 40, 1));
+                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.jump.id, 40, 0));
             }
 
             super.onEntityWalking(world, x, y, z, e);

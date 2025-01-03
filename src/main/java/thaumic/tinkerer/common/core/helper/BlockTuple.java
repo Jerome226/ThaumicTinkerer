@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
  * Created by pixlepix on 9/28/14.
  */
 public class BlockTuple {
+
     public Block block;
     public int meta;
 

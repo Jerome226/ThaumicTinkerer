@@ -1,8 +1,8 @@
 package thaumic.tinkerer.common.registry;
 
-import net.minecraft.tileentity.TileEntity;
-
 import java.util.HashMap;
+
+import net.minecraft.tileentity.TileEntity;
 
 /**
  * Created by pixlepix on 8/2/14.
@@ -10,5 +10,4 @@ import java.util.HashMap;
 public interface IMultiTileEntityBlock extends ITTinkererBlock {
 
     public HashMap<Class<? extends TileEntity>, String> getAdditionalTileEntities();
-
 }

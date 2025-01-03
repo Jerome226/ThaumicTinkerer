@@ -1,18 +1,17 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Dec 29, 2013, 9:08:14 PM (GMT)]
  */
 package thaumic.tinkerer.common.item.kami.tool;
+
+import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -26,8 +25,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -46,8 +45,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.List;
-
 public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
 
     IIcon[] specialIcons = new IIcon[3];
@@ -61,8 +58,7 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
     @Override
     public void registerIcons(IIconRegister par1IconRegister) {
         super.registerIcons(par1IconRegister);
-        for (int i = 0; i < specialIcons.length; i++)
-            specialIcons[i] = IconHelper.forItem(par1IconRegister, this, i);
+        for (int i = 0; i < specialIcons.length; i++) specialIcons[i] = IconHelper.forItem(par1IconRegister, this, i);
     }
 
     @Override
@@ -77,29 +73,38 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        if (!ignoreLeftClick && entity instanceof EntityLivingBase && ((EntityLivingBase) entity).hurtTime == 0 && !((EntityLivingBase) entity).isDead)
+        if (!ignoreLeftClick && entity instanceof EntityLivingBase
+                && ((EntityLivingBase) entity).hurtTime == 0
+                && !((EntityLivingBase) entity).isDead)
             switch (ToolHandler.getMode(stack)) {
-                case 0:
-                    break;
-                case 1: {
-                    int range = 3;
-                    List<Entity> entities = player.worldObj.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range));
-                    ignoreLeftClick = true;
-                    for (Entity entity_ : entities)
-                        player.attackTargetEntityWithCurrentItem(entity_);
-                    ignoreLeftClick = false;
+            case 0:
+            break;
+            case 1: {
+                int range = 3;
+                List<Entity> entities = player.worldObj.getEntitiesWithinAABB(
+                        entity.getClass(),
+                        AxisAlignedBB.getBoundingBox(
+                                entity.posX - range,
+                                entity.posY - range,
+                                entity.posZ - range,
+                                entity.posX + range,
+                                entity.posY + range,
+                                entity.posZ + range));
+                ignoreLeftClick = true;
+                for (Entity entity_ : entities) player.attackTargetEntityWithCurrentItem(entity_);
+                ignoreLeftClick = false;
 
-                    break;
-                }
-                case 2: {
-                    EntityLivingBase living = (EntityLivingBase) entity;
-                    PotionEffect effect = new PotionEffect(Potion.resistance.id, 1, 1);
-                    living.addPotionEffect(effect);
+                break;
+            }
+            case 2: {
+                EntityLivingBase living = (EntityLivingBase) entity;
+                PotionEffect effect = new PotionEffect(Potion.resistance.id, 1, 1);
+                living.addPotionEffect(effect);
 
-                    SoulHeartHandler.addHearts(player);
+                SoulHeartHandler.addHearts(player);
 
-                    break;
-                }
+                break;
+            }
             }
 
         return super.onLeftClickEntity(stack, player, entity);
@@ -113,7 +118,8 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         par3List.add(EnumChatFormatting.DARK_AQUA + ToolHandler.getToolModeStr(this, par1ItemStack));
-        //list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + this.getVisDiscount(stack, player, null) + "%");
+        // list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " +
+        // this.getVisDiscount(stack, player, null) + "%");
     }
 
     @Override
@@ -128,18 +134,39 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHOR_SWORD_GEM, new AspectList().add(Aspect.AIR, 2).add(Aspect.WEAPON, 1).add(Aspect.SOUL, 1).add(Aspect.HUNGER, 1), 16, 12, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHOR_TOOLS)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHOR_SWORD_GEM), new ResearchPage("1"));
-
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                LibResearch.KEY_ICHOR_SWORD_GEM,
+                new AspectList().add(Aspect.AIR, 2).add(Aspect.WEAPON, 1).add(Aspect.SOUL, 1).add(Aspect.HUNGER, 1),
+                16,
+                12,
+                5,
+                new ItemStack(this)).setParents(LibResearch.KEY_ICHOR_TOOLS).setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_ICHOR_SWORD_GEM),
+                        new ResearchPage("1"));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHOR_SWORD_GEM, new ItemStack(this), 15, new AspectList().add(Aspect.AIR, 50).add(Aspect.HUNGER, 64).add(Aspect.SOUL, 32).add(Aspect.WEAPON, 32).add(Aspect.ENERGY, 32).add(Aspect.ORDER, 16).add(Aspect.CRYSTAL, 16), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemIchorSword.class)),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemSwordElemental), new ItemStack(ConfigItems.itemFocusFrost), new ItemStack(Blocks.cactus), new ItemStack(ConfigItems.itemNugget, 1, 21), new ItemStack(ConfigItems.itemNugget, 1, 16), new ItemStack(ConfigItems.itemNugget, 1, 31), new ItemStack(Items.diamond), new ItemStack(ConfigItems.itemFocusFrost), new ItemStack(ConfigItems.itemSwordElemental), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ICHOR_SWORD_GEM,
+                new ItemStack(this),
+                15,
+                new AspectList().add(Aspect.AIR, 50).add(Aspect.HUNGER, 64).add(Aspect.SOUL, 32).add(Aspect.WEAPON, 32)
+                        .add(Aspect.ENERGY, 32).add(Aspect.ORDER, 16).add(Aspect.CRYSTAL, 16),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemIchorSword.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ConfigItems.itemSwordElemental),
+                new ItemStack(ConfigItems.itemFocusFrost),
+                new ItemStack(Blocks.cactus),
+                new ItemStack(ConfigItems.itemNugget, 1, 21),
+                new ItemStack(ConfigItems.itemNugget, 1, 16),
+                new ItemStack(ConfigItems.itemNugget, 1, 31),
+                new ItemStack(Items.diamond),
+                new ItemStack(ConfigItems.itemFocusFrost),
+                new ItemStack(ConfigItems.itemSwordElemental),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
     }
-
 }

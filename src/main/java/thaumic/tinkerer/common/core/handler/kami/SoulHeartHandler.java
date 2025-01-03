@@ -1,20 +1,16 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Dec 29, 2013, 9:33:23 PM (GMT)]
  */
 package thaumic.tinkerer.common.core.handler.kami;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +19,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.network.packet.kami.PacketSoulHearts;
@@ -40,8 +38,7 @@ public class SoulHeartHandler {
 
     public static boolean addHP(EntityPlayer player, int hp) {
         int current = getHP(player);
-        if (current >= MAX_HP)
-            return false;
+        if (current >= MAX_HP) return false;
 
         setHP(player, Math.min(MAX_HP, current + hp));
         return true;
@@ -68,8 +65,7 @@ public class SoulHeartHandler {
 
     private static NBTTagCompound getCompoundToSet(EntityPlayer player) {
         NBTTagCompound cmp = player.getEntityData();
-        if (!cmp.hasKey(COMPOUND))
-            cmp.setTag(COMPOUND, new NBTTagCompound());
+        if (!cmp.hasKey(COMPOUND)) cmp.setTag(COMPOUND, new NBTTagCompound());
 
         return cmp.getCompoundTag(COMPOUND);
     }
@@ -95,7 +91,7 @@ public class SoulHeartHandler {
         if (!par1DamageSource.isUnblockable()) {
             int i = 25 - entity.getTotalArmorValue();
             float f1 = par2 * i;
-            //			this.damageArmor(par2);
+            // this.damageArmor(par2);
             par2 = f1 / 25.0F;
         }
 
@@ -114,13 +110,11 @@ public class SoulHeartHandler {
             par2 = f1 / 25.0F;
         }
 
-        if (par2 <= 0.0F)
-            return 0.0F;
+        if (par2 <= 0.0F) return 0.0F;
         else {
             i = EnchantmentHelper.getEnchantmentModifierDamage(entity.getLastActiveItems(), par1DamageSource);
 
-            if (i > 20)
-                i = 20;
+            if (i > 20) i = 20;
 
             if (i > 0 && i <= 20) {
                 j = 25 - i;

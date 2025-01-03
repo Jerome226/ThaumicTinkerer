@@ -2,6 +2,7 @@ package thaumic.tinkerer.common.core.handler.kami;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
 import thaumic.tinkerer.common.lib.LibMisc;
 
 /**
@@ -14,8 +15,7 @@ public class KamiArmorHandler {
 
     private static NBTTagCompound getCompoundToSet(EntityPlayer player) {
         NBTTagCompound cmp = player.getEntityData();
-        if (!cmp.hasKey(COMPOUND))
-            cmp.setTag(COMPOUND, new NBTTagCompound());
+        if (!cmp.hasKey(COMPOUND)) cmp.setTag(COMPOUND, new NBTTagCompound());
 
         return cmp.getCompoundTag(COMPOUND);
     }

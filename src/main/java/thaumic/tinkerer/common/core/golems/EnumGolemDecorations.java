@@ -1,6 +1,7 @@
 package thaumic.tinkerer.common.core.golems;
 
 public enum EnumGolemDecorations {
+
     TopHat('H', "item.ItemGolemDecoration.0.name"),
     Glasses('G', "item.ItemGolemDecoration.1.name"),
     BowTie('B', "item.ItemGolemDecoration.2.name"),
@@ -48,5 +49,4 @@ public enum EnumGolemDecorations {
     public char getChar() {
         return decorationChar;
     }
-
 }

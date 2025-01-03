@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Jan 10, 2014, 5:43:53 PM (GMT)]
@@ -19,7 +16,9 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
+
 import thaumic.tinkerer.client.gui.button.kami.GuiButtonWG;
 import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.ThaumicTinkerer;
@@ -62,7 +61,7 @@ public class GuiWarpGate extends GuiContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(gui);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-        fontRendererObj.drawStringWithShadow(StatCollector.translateToLocal("ttmisc.lockedGate"), x + 20, y + 7, 0x999999);
+        fontRendererObj
+                .drawStringWithShadow(StatCollector.translateToLocal("ttmisc.lockedGate"), x + 20, y + 7, 0x999999);
     }
-
 }

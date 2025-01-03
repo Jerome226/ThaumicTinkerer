@@ -1,18 +1,24 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [4 Sep 2013, 16:29:41 (GMT)]
  */
 package thaumic.tinkerer.common.core.proxy;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
@@ -25,19 +31,22 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import dan200.computercraft.api.ComputerCraftAPI;
 import li.cil.oc.api.Driver;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.world.ChunkDataEvent;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
-import thaumcraft.common.tiles.*;
+import thaumcraft.common.tiles.TileAlembic;
+import thaumcraft.common.tiles.TileArcaneBore;
+import thaumcraft.common.tiles.TileCentrifuge;
+import thaumcraft.common.tiles.TileCrucible;
+import thaumcraft.common.tiles.TileDeconstructionTable;
+import thaumcraft.common.tiles.TileInfusionMatrix;
+import thaumcraft.common.tiles.TileJarBrain;
+import thaumcraft.common.tiles.TileJarFillable;
+import thaumcraft.common.tiles.TileJarNode;
+import thaumcraft.common.tiles.TileNode;
+import thaumcraft.common.tiles.TileSensor;
+import thaumcraft.common.tiles.TileTubeFilter;
+import thaumcraft.common.tiles.TileWandPedestal;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileFunnel;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
@@ -62,18 +71,26 @@ import thaumic.tinkerer.common.item.kami.wand.RodIchorcloth;
 import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.network.GuiHandler;
 import thaumic.tinkerer.common.network.PlayerTracker;
-import thaumic.tinkerer.common.network.packet.*;
+import thaumic.tinkerer.common.network.packet.PacketEnchanterAddEnchant;
+import thaumic.tinkerer.common.network.packet.PacketEnchanterStartWorking;
+import thaumic.tinkerer.common.network.packet.PacketMobMagnetButton;
+import thaumic.tinkerer.common.network.packet.PacketPlacerButton;
+import thaumic.tinkerer.common.network.packet.PacketTabletButton;
 import thaumic.tinkerer.common.network.packet.kami.PacketSoulHearts;
 import thaumic.tinkerer.common.network.packet.kami.PacketToggleArmor;
 import thaumic.tinkerer.common.network.packet.kami.PacketWarpGateButton;
 import thaumic.tinkerer.common.network.packet.kami.PacketWarpGateTeleport;
-import thaumic.tinkerer.common.peripheral.OpenComputers.*;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverArcaneBore;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverArcaneEar;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverBrainInAJar;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverDeconstructor;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverEssentiaTransport;
+import thaumic.tinkerer.common.peripheral.OpenComputers.DriverIAspectContainer;
 import thaumic.tinkerer.common.peripheral.PeripheralHandler;
 import thaumic.tinkerer.common.potion.ModPotions;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class TTCommonProxy {
-
 
     public static EnumRarity kamiRarity;
     public WandCap capIchor;
@@ -84,26 +101,32 @@ public class TTCommonProxy {
         toolMaterialIchor = EnumHelper.addToolMaterial("ICHOR", 4, -1, 10F, 5F, 25);
         ModCreativeTab.INSTANCE = new ModCreativeTab();
         ConfigHandler.loadConfig(event.getSuggestedConfigurationFile());
-        //ModItems.initItems();
+        // ModItems.initItems();
 
         NumericAspectHelper.init();
         ThaumicTinkerer.registry.preInit();
         capIchor = new CapIchor();
         rodIchor = new RodIchorcloth();
-        
+
         ModCreativeTab.INSTANCE.addWand();
-        
+
         if (Loader.isModLoaded("ComputerCraft")) {
             initCCPeripherals();
         }
         registerVersionChecker();
 
-        kamiRarity = EnumHelper.addEnum(new Class[][]{{EnumRarity.class, EnumChatFormatting.class, String.class}}, EnumRarity.class, "KAMI", EnumChatFormatting.LIGHT_PURPLE, "Kami");
+        kamiRarity = EnumHelper.addEnum(
+                new Class[][] { { EnumRarity.class, EnumChatFormatting.class, String.class } },
+                EnumRarity.class,
+                "KAMI",
+                EnumChatFormatting.LIGHT_PURPLE,
+                "Kami");
     }
 
     public void init(FMLInitializationEvent event) {
         ModEnchantments.initEnchantments();
         EnchantmentManager.initEnchantmentData();
+        ModEnchantments.addInfusionEnchants();
         ModPotions.initPotions();
         ThaumicTinkerer.registry.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(ThaumicTinkerer.instance, new GuiHandler());
@@ -121,8 +144,7 @@ public class TTCommonProxy {
         if (Loader.isModLoaded("OpenComputers")) {
             initOpenCDrivers();
         }
-        if(Loader.isModLoaded("EnderIO"))
-        {
+        if (Loader.isModLoaded("EnderIO")) {
             InitEnderIO();
         }
 
@@ -140,16 +162,32 @@ public class TTCommonProxy {
     }
 
     protected void registerPackets() {
-        ThaumicTinkerer.netHandler.registerMessage(PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
-        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
-        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterAddEnchant.class, PacketEnchanterAddEnchant.class, 142 + 5, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterStartWorking.class, PacketEnchanterStartWorking.class, 142 + 6, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketEnchanterAddEnchant.class,
+                PacketEnchanterAddEnchant.class,
+                142 + 5,
+                Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketEnchanterStartWorking.class,
+                PacketEnchanterStartWorking.class,
+                142 + 6,
+                Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
+        ThaumicTinkerer.netHandler
+                .registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
     }
 
     public void registerVersionChecker() {
@@ -164,24 +202,23 @@ public class TTCommonProxy {
         ResearchHelper.initResearch();
         ThaumicTinkerer.registry.postInit();
         AspectCropLootManager.populateLootMap();
-        ItemFocusDeflect.setupBlackList();
+        ItemFocusDeflect.setupWhiteList();
     }
 
     @Optional.Method(modid = "EnderIO")
-    protected void InitEnderIO()
-    {
+    protected void InitEnderIO() {
         EnderIO.registerPlanters();
     }
+
     @Optional.Method(modid = "ComputerCraft")
     protected void initCCPeripherals() {
         PeripheralHandler handler = new PeripheralHandler();
 
-        Class[] peripheralClasses = new Class[]{
-                TileAlembic.class, TileCentrifuge.class, TileCrucible.class, TileFunnel.class,
-                TileInfusionMatrix.class, TileJarFillable.class, TileJarNode.class, TileNode.class,
+        Class[] peripheralClasses = new Class[] { TileAlembic.class, TileCentrifuge.class, TileCrucible.class,
+                TileFunnel.class, TileInfusionMatrix.class, TileJarFillable.class, TileJarNode.class, TileNode.class,
                 TileRepairer.class, TileTubeFilter.class, TileTransvectorInterface.class, TileWandPedestal.class,
-                TileDeconstructionTable.class, TileJarBrain.class, TileSensor.class, TileArcaneBore.class, IEssentiaTransport.class
-        };
+                TileDeconstructionTable.class, TileJarBrain.class, TileSensor.class, TileArcaneBore.class,
+                IEssentiaTransport.class };
         handler.registerPeripheralProvider();
 
         ComputerCraftAPI.registerTurtleUpgrade(new FumeTool());
@@ -195,7 +232,6 @@ public class TTCommonProxy {
         Driver.add(new DriverDeconstructor());
         Driver.add(new DriverEssentiaTransport());
         Driver.add(new DriverArcaneBore());
-
     }
 
     public boolean isClient() {

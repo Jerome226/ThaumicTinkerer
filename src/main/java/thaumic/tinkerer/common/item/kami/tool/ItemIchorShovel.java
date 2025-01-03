@@ -1,25 +1,25 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Dec 29, 2013, 5:29:36 PM (GMT)]
  */
 package thaumic.tinkerer.common.item.kami.tool;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.config.ConfigItems;
@@ -35,8 +35,6 @@ import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererArcaneRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemIchorShovel extends ItemSpade implements ITTinkererItem {
 
@@ -89,9 +87,17 @@ public class ItemIchorShovel extends ItemSpade implements ITTinkererItem {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHOR_SHOVEL, LibResearch.KEY_ICHOR_TOOLS, new ItemStack(this), new AspectList().add(Aspect.EARTH, 75),
-                " I ", " R ", " R ",
-                'R', new ItemStack(ConfigItems.itemWandRod, 1, 2),
-                'I', new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_ICHOR_SHOVEL,
+                LibResearch.KEY_ICHOR_TOOLS,
+                new ItemStack(this),
+                new AspectList().add(Aspect.EARTH, 75),
+                " I ",
+                " R ",
+                " R ",
+                'R',
+                new ItemStack(ConfigItems.itemWandRod, 1, 2),
+                'I',
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
     }
 }

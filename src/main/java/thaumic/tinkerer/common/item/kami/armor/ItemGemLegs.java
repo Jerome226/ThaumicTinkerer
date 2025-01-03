@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Dec 27, 2013, 1:03:05 AM (GMT)]
@@ -79,18 +76,16 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
             player.addPotionEffect(new PotionEffect(potion.id, duration, level, true));
     }
 
-
     @Override
     void tickPlayer(EntityPlayer player) {
         if (player.ticksExisted % 5 == 0) {
             ItemStack armor = player.getCurrentArmor(1);
-            if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player))
-                return;
+
+            if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player)) return;
 
             if (player.isBurning()) player.heal(0.5F);
-            addPotionEffect(player, Potion.fireResistance, 119, 10);
+            addPotionEffect(player, Potion.fireResistance, 119, -1);
             setNearBrightNitor(player);
-
         }
     }
 
@@ -101,16 +96,41 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if (!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHORCLOTH_LEGS_GEM, new AspectList().add(Aspect.FIRE, 2).add(Aspect.HEAL, 1).add(Aspect.GREED, 1).add(Aspect.ENERGY, 1), 17, 9, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ARMOR)
-            .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHORCLOTH_LEGS_GEM), new ResearchPage("1"));
-
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                LibResearch.KEY_ICHORCLOTH_LEGS_GEM,
+                new AspectList().add(Aspect.FIRE, 2).add(Aspect.HEAL, 1).add(Aspect.GREED, 1).add(Aspect.ENERGY, 1),
+                17,
+                9,
+                5,
+                new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ARMOR).setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_ICHORCLOTH_LEGS_GEM),
+                        new ResearchPage("1"));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHORCLOTH_LEGS_GEM, new ItemStack(this), 13, new AspectList().add(Aspect.FIRE, 50).add(Aspect.ARMOR, 32).add(Aspect.HEAL, 32).add(Aspect.ENERGY, 32).add(Aspect.LIGHT, 64).add(Aspect.GREED, 16).add(Aspect.ELDRITCH, 16), (new ItemStack(ThaumicTinkerer.registry.getItemFromClassAndName(ItemIchorclothArmor.class, LibItemNames.ICHOR_LEGS))),
-            new ItemStack(Items.diamond, 1), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemFocusPrimal), new ItemStack(ConfigItems.itemThaumonomicon), new ItemStack(Items.golden_chestplate), new ItemStack(Items.potionitem, 1, 8195), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusSmelt.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)), new ItemStack(Items.lava_bucket), new ItemStack(Items.fire_charge), new ItemStack(Items.blaze_rod));
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ICHORCLOTH_LEGS_GEM,
+                new ItemStack(this),
+                13,
+                new AspectList().add(Aspect.FIRE, 50).add(Aspect.ARMOR, 32).add(Aspect.HEAL, 32).add(Aspect.ENERGY, 32)
+                        .add(Aspect.LIGHT, 64).add(Aspect.GREED, 16).add(Aspect.ELDRITCH, 16),
+                (new ItemStack(
+                        ThaumicTinkerer.registry
+                                .getItemFromClassAndName(ItemIchorclothArmor.class, LibItemNames.ICHOR_LEGS))),
+                new ItemStack(Items.diamond, 1),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ConfigItems.itemFocusPrimal),
+                new ItemStack(ConfigItems.itemThaumonomicon),
+                new ItemStack(Items.golden_chestplate),
+                new ItemStack(Items.potionitem, 1, 8195),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusSmelt.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)),
+                new ItemStack(Items.lava_bucket),
+                new ItemStack(Items.fire_charge),
+                new ItemStack(Items.blaze_rod));
     }
 }

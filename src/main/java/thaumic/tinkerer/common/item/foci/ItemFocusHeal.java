@@ -1,24 +1,24 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [26 Oct 2013, 12:04:52 (GMT)]
  */
 package thaumic.tinkerer.common.item.foci;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -35,9 +35,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ItemFocusHeal extends ItemModFocus {
 
     private static final AspectList visUsage = new AspectList().add(Aspect.EARTH, 45).add(Aspect.WATER, 45);
@@ -51,8 +48,7 @@ public class ItemFocusHeal extends ItemModFocus {
     @Override
     public void onUsingFocusTick(ItemStack stack, EntityPlayer p, int time) {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-        if (!wand.consumeAllVis(stack, p, visUsage, false, false) || !p.shouldHeal())
-            return;
+        if (!wand.consumeAllVis(stack, p, visUsage, false, false) || !p.shouldHeal()) return;
 
         int potency = wand.getFocusPotency(stack);
 
@@ -62,7 +58,11 @@ public class ItemFocusHeal extends ItemModFocus {
         int progress = playerHealData.get(p.getGameProfile().getName()) + 1;
         playerHealData.put(p.getGameProfile().getName(), progress);
 
-        ThaumicTinkerer.tcProxy.sparkle((float) p.posX + p.worldObj.rand.nextFloat() - 0.5F, (float) p.posY + p.worldObj.rand.nextFloat(), (float) p.posZ + p.worldObj.rand.nextFloat() - 0.5F, 0);
+        ThaumicTinkerer.tcProxy.sparkle(
+                (float) p.posX + p.worldObj.rand.nextFloat() - 0.5F,
+                (float) p.posY + p.worldObj.rand.nextFloat(),
+                (float) p.posZ + p.worldObj.rand.nextFloat() - 0.5F,
+                0);
 
         if (progress >= 30 - potency * 10 / 3) {
             playerHealData.put(p.getGameProfile().getName(), 0);
@@ -70,14 +70,16 @@ public class ItemFocusHeal extends ItemModFocus {
             wand.consumeAllVis(stack, p, visUsage, true, false);
             p.heal(1 + potency);
             p.worldObj.playSoundAtEntity(p, "thaumcraft:wand", 0.5F, 1F);
-            //System.out.println("potency"+potency);
-            //System.out.println("progress"+progress);
-            //System.out.println("progress"+progress+" >= "+30+" - potency"+potency+" * 10 / 3"+" ("+(30-potency*10/3));
+            // System.out.println("potency"+potency);
+            // System.out.println("progress"+progress);
+            // System.out.println("progress"+progress+" >= "+30+" - potency"+potency+" * 10 / 3"+"
+            // ("+(30-potency*10/3));
         }
     }
 
     @Override
-    public void onPlayerStoppedUsingFocus(ItemStack paramItemStack, World paramWorld, EntityPlayer paramEntityPlayer, int paramInt) {
+    public void onPlayerStoppedUsingFocus(ItemStack paramItemStack, World paramWorld, EntityPlayer paramEntityPlayer,
+            int paramInt) {
         playerHealData.put(paramEntityPlayer.getGameProfile().getName(), 0);
     }
 
@@ -96,9 +98,8 @@ public class ItemFocusHeal extends ItemModFocus {
         return true;
     }
 
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTHE" + super.getSortingHelper(itemstack);
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTHE" + super.getSortingHelper(itemstack);
     }
 
     @Override
@@ -112,28 +113,28 @@ public class ItemFocusHeal extends ItemModFocus {
     }
 
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank)
-    {
-      switch (rank)
-      {
-      case 1: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
-      case 2: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency};
-      case 3: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency};
-      case 4: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency};
-      case 5: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
-      }
-      return null;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        switch (rank) {
+            case 1:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 2:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 3:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 4:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 5:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        }
+        return null;
     }
-    
-    //public static FocusUpgradeType chainlightning = new FocusUpgradeType(17, new ResourceLocation("thaumcraft", "textures/foci/chainlightning.png"), "focus.upgrade.chainlightning.name", "focus.upgrade.chainlightning.text", new AspectList().add(Aspect.WEATHER, 1));
-    //public static FocusUpgradeType earthshock = new FocusUpgradeType(18, new ResourceLocation("thaumcraft", "textures/foci/earthshock.png"), "focus.upgrade.earthshock.name", "focus.upgrade.earthshock.text", new AspectList().add(Aspect.WEATHER, 1));
 
-    
+    // public static FocusUpgradeType chainlightning = new FocusUpgradeType(17, new ResourceLocation("thaumcraft",
+    // "textures/foci/chainlightning.png"), "focus.upgrade.chainlightning.name", "focus.upgrade.chainlightning.text",
+    // new AspectList().add(Aspect.WEATHER, 1));
+    // public static FocusUpgradeType earthshock = new FocusUpgradeType(18, new ResourceLocation("thaumcraft",
+    // "textures/foci/earthshock.png"), "focus.upgrade.earthshock.name", "focus.upgrade.earthshock.text", new
+    // AspectList().add(Aspect.WEATHER, 1));
 
     @Override
     public String getItemName() {
@@ -145,15 +146,28 @@ public class ItemFocusHeal extends ItemModFocus {
         if (!Config.allowMirrors) {
             return null;
         }
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_FOCUS_HEAL, new AspectList().add(Aspect.HEAL, 2).add(Aspect.SOUL, 1).add(Aspect.MAGIC, 1), -6, -4, 2, new ItemStack(this)).setParents(LibResearch.KEY_FOCUS_DEFLECT).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_HEAL)).setSecondary();
-
+        return (TTResearchItem) new TTResearchItem(
+                LibResearch.KEY_FOCUS_HEAL,
+                new AspectList().add(Aspect.HEAL, 2).add(Aspect.SOUL, 1).add(Aspect.MAGIC, 1),
+                -6,
+                -4,
+                2,
+                new ItemStack(this)).setParents(LibResearch.KEY_FOCUS_DEFLECT).setConcealed()
+                        .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_HEAL))
+                        .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_FOCUS_HEAL, new ItemStack(this), 4, new AspectList().add(Aspect.HEAL, 10).add(Aspect.SOUL, 10).add(Aspect.LIFE, 15), new ItemStack(ConfigItems.itemFocusPech),
-                new ItemStack(Items.golden_carrot), new ItemStack(Items.gold_nugget), new ItemStack(Items.gold_nugget), new ItemStack(Items.gold_nugget));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_FOCUS_HEAL,
+                new ItemStack(this),
+                4,
+                new AspectList().add(Aspect.HEAL, 10).add(Aspect.SOUL, 10).add(Aspect.LIFE, 15),
+                new ItemStack(ConfigItems.itemFocusPech),
+                new ItemStack(Items.golden_carrot),
+                new ItemStack(Items.gold_nugget),
+                new ItemStack(Items.gold_nugget),
+                new ItemStack(Items.gold_nugget));
     }
 }

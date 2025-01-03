@@ -1,21 +1,18 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [12 Sep 2013, 17:36:35 (GMT)]
  */
 package thaumic.tinkerer.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +20,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumic.tinkerer.common.core.helper.ItemNBTHelper;
@@ -32,8 +32,6 @@ import thaumic.tinkerer.common.registry.ItemBase;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCrucibleRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.List;
 
 public class ItemSoulMould extends ItemBase {
 
@@ -67,23 +65,25 @@ public class ItemSoulMould extends ItemBase {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_MAGNETS, new ItemStack(this), new ItemStack(Items.ender_pearl), new AspectList().add(Aspect.BEAST, 4).add(Aspect.MIND, 8).add(Aspect.SENSES, 8));
+        return new ThaumicTinkererCrucibleRecipe(
+                LibResearch.KEY_MAGNETS,
+                new ItemStack(this),
+                new ItemStack(Items.ender_pearl),
+                new AspectList().add(Aspect.BEAST, 4).add(Aspect.MIND, 8).add(Aspect.SENSES, 8));
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
-        if(par3EntityLivingBase instanceof  EntityPlayer)
-            return true;
-        if (par2EntityPlayer != null)
-            setPattern(par2EntityPlayer.getCurrentEquippedItem(), par3EntityLivingBase);
+    public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer,
+            EntityLivingBase par3EntityLivingBase) {
+        if (par3EntityLivingBase instanceof EntityPlayer) return true;
+        if (par2EntityPlayer != null) setPattern(par2EntityPlayer.getCurrentEquippedItem(), par3EntityLivingBase);
         else setPattern(par1ItemStack, par3EntityLivingBase);
         return true;
     }
 
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        if (par3EntityPlayer.isSneaking())
-            clearPattern(par1ItemStack);
+        if (par3EntityPlayer.isSneaking()) clearPattern(par1ItemStack);
 
         return par1ItemStack;
     }
@@ -93,10 +93,11 @@ public class ItemSoulMould extends ItemBase {
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         String name = getPatternName(par1ItemStack);
 
-        if (name.isEmpty())
-            par3List.add(StatCollector.translateToLocal("ttmisc.soulMould.nonAssigned"));
-        else
-            par3List.add(String.format(StatCollector.translateToLocal("ttmisc.soulMould.pattern"), StatCollector.translateToLocal("entity." + name + ".name")));
+        if (name.isEmpty()) par3List.add(StatCollector.translateToLocal("ttmisc.soulMould.nonAssigned"));
+        else par3List.add(
+                String.format(
+                        StatCollector.translateToLocal("ttmisc.soulMould.pattern"),
+                        StatCollector.translateToLocal("entity." + name + ".name")));
     }
 
     @Override

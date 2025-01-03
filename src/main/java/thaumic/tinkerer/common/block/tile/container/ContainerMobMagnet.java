@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [12 Sep 2013, 18:42:28 (GMT)]
@@ -18,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import thaumic.tinkerer.common.block.tile.TileMobMagnet;
 import thaumic.tinkerer.common.block.tile.container.slot.SlotMobMagnet;
 import thaumic.tinkerer.common.item.ItemSoulMould;
@@ -53,18 +51,13 @@ public class ContainerMobMagnet extends ContainerPlayerInv {
                 var3 = var5.copy();
 
                 if (par2 < 1) {
-                    if (!mergeItemStack(var5, 1, 37, false))
-                        return null;
-                } else if (!mergeItemStack(var5, 0, 1, false))
-                    return null;
+                    if (!mergeItemStack(var5, 1, 37, false)) return null;
+                } else if (!mergeItemStack(var5, 0, 1, false)) return null;
 
-                if (var5.stackSize == 0)
-                    var4.putStack(null);
-                else
-                    var4.onSlotChanged();
+                if (var5.stackSize == 0) var4.putStack(null);
+                else var4.onSlotChanged();
 
-                if (var5.stackSize == var3.stackSize)
-                    return null;
+                if (var5.stackSize == var3.stackSize) return null;
 
                 var4.onPickupFromSlot(par1EntityPlayer, var5);
             }

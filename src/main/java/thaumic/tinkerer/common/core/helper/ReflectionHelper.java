@@ -1,16 +1,18 @@
 package thaumic.tinkerer.common.core.helper;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 
 /**
  * Created by Katrina on 18/03/14.
  */
 public class ReflectionHelper {
+
     public static <T> T call(Object instance, String methodName, Object... args) {
         return call(instance.getClass(), instance, ArrayUtils.toArray(methodName), args);
     }
@@ -60,8 +62,7 @@ public class ReflectionHelper {
         while (clazz != null) {
             try {
                 return clazz.getDeclaredMethod(name, argsTypes);
-            } catch (NoSuchMethodException e) {
-            } catch (Exception e) {
+            } catch (NoSuchMethodException e) {} catch (Exception e) {
                 throw Throwables.propagate(e);
             }
             clazz = clazz.getSuperclass();

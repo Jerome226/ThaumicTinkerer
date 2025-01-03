@@ -3,12 +3,14 @@ package thaumic.tinkerer.client.gui.button;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
+
 import thaumic.tinkerer.client.lib.LibResources;
 
 /**
  * Created by nekosune on 30/06/14.
  */
 public class GuiButtonRP extends GuiButton {
+
     private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_REMOTE_PLACER);
 
     public boolean buttonEnabled = false;

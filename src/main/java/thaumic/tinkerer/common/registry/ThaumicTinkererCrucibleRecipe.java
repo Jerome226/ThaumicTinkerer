@@ -1,6 +1,7 @@
 package thaumic.tinkerer.common.registry;
 
 import net.minecraft.item.ItemStack;
+
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;

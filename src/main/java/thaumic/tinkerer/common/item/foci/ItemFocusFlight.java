@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [9 Sep 2013, 19:27:13 (GMT)]
@@ -21,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -42,7 +40,8 @@ public class ItemFocusFlight extends ItemModFocus {
     private static final AspectList visUsage = new AspectList().add(Aspect.AIR, 15);
 
     @Override
-    public ItemStack onFocusRightClick(ItemStack itemstack, World world, EntityPlayer p, MovingObjectPosition movingobjectposition) {
+    public ItemStack onFocusRightClick(ItemStack itemstack, World world, EntityPlayer p,
+            MovingObjectPosition movingobjectposition) {
         ItemWandCasting wand = (ItemWandCasting) itemstack.getItem();
         if (!ConfigHandler.enableFlight) {
             return itemstack;
@@ -57,20 +56,25 @@ public class ItemFocusFlight extends ItemModFocus {
             if (p instanceof EntityPlayerMP) {
                 ((EntityPlayerMP) p).playerNetServerHandler.floatingTickCount = 0;
             }
-            for (int i = 0; i < 5; i++)
-                ThaumicTinkerer.tcProxy.smokeSpiral(world, p.posX, p.posY - p.motionY, p.posZ, 2F, (int) (Math.random() * 360), (int) p.posY, 0x9E2FF);
+            for (int i = 0; i < 5; i++) ThaumicTinkerer.tcProxy.smokeSpiral(
+                    world,
+                    p.posX,
+                    p.posY - p.motionY,
+                    p.posZ,
+                    2F,
+                    (int) (Math.random() * 360),
+                    (int) p.posY,
+                    0x9E2FF);
             world.playSoundAtEntity(p, "thaumcraft:wind", 0.4F, 1F);
         }
 
-        if (world.isRemote)
-            p.swingItem();
+        if (world.isRemote) p.swingItem();
 
         return itemstack;
     }
 
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTFL" + super.getSortingHelper(itemstack);
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTFL" + super.getSortingHelper(itemstack);
     }
 
     @Override
@@ -89,22 +93,20 @@ public class ItemFocusFlight extends ItemModFocus {
     }
 
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank)
-    {
-      switch (rank)
-      {
-      case 1: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 2: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 3: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 4: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 5: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      }
-      return null;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        switch (rank) {
+            case 1:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 2:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 3:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 4:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 5:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+        }
+        return null;
     }
 
     @Override
@@ -114,15 +116,30 @@ public class ItemFocusFlight extends ItemModFocus {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_FOCUS_FLIGHT, new AspectList().add(Aspect.MOTION, 1).add(Aspect.MAGIC, 1).add(Aspect.AIR, 2), -3, -4, 2, new ItemStack(this)).setParents(LibResearch.KEY_FOCUS_SMELT).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_FLIGHT));
-
+        return (TTResearchItem) new TTResearchItem(
+                LibResearch.KEY_FOCUS_FLIGHT,
+                new AspectList().add(Aspect.MOTION, 1).add(Aspect.MAGIC, 1).add(Aspect.AIR, 2),
+                -3,
+                -4,
+                2,
+                new ItemStack(this)).setParents(LibResearch.KEY_FOCUS_SMELT).setConcealed()
+                        .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_FLIGHT));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return
-                new ThaumicTinkererInfusionRecipe(LibResearch.KEY_FOCUS_FLIGHT, new ItemStack(this), 3, new AspectList().add(Aspect.AIR, 15).add(Aspect.MOTION, 20).add(Aspect.TRAVEL, 10), new ItemStack(Items.ender_pearl),
-                        new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.feather), new ItemStack(Items.feather), new ItemStack(ConfigItems.itemShard, 1, 0));
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_FOCUS_FLIGHT,
+                new ItemStack(this),
+                3,
+                new AspectList().add(Aspect.AIR, 15).add(Aspect.MOTION, 20).add(Aspect.TRAVEL, 10),
+                new ItemStack(Items.ender_pearl),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.feather),
+                new ItemStack(Items.feather),
+                new ItemStack(ConfigItems.itemShard, 1, 0));
     }
 }

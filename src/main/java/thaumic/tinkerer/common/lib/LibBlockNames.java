@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [4 Sep 2013, 17:48:11 (GMT)]
@@ -58,11 +55,8 @@ public final class LibBlockNames {
 
     public static final String PORTAL = "bedrockPortal";
 
-    public static final String[] DARK_QUARTZ_BLOCK_NAMES = {
-            "tile." + DARK_QUARTZ,
-            "tile." + "darkQuartzChiseled",
-            "tile." + "darkQuartzPillar"
-    };
+    public static final String[] DARK_QUARTZ_BLOCK_NAMES = { "tile." + DARK_QUARTZ, "tile." + "darkQuartzChiseled",
+            "tile." + "darkQuartzPillar" };
 
     public static final String MOBILIZER_RELAY = "Levitational Locomotive Relay";
     public static final String SPAWNER = "spawner";
@@ -73,7 +67,5 @@ public final class LibBlockNames {
 
     public static final String INFUSED_GRAIN_BLOCK = INFUSED_GRAIN_BASE + "Block";
 
-
     public static final String FORCEFIELD = "forcefield";
-
 }

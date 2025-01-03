@@ -1,7 +1,8 @@
 package thaumic.tinkerer.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
@@ -13,6 +14,9 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
@@ -28,9 +32,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ItemShareBook extends ItemBase {
 
@@ -49,21 +50,34 @@ public class ItemShareBook extends ItemBase {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_SHARE_TOME, new AspectList(), 0, -1, 0, new ItemStack(this)).setStub().setAutoUnlock().setRound();
-        if (ConfigHandler.enableSurvivalShareTome)
-            ((TTResearchItem) research).setPages(new ResearchPage("0"), ResearchHelper.recipePage(LibResearch.KEY_SHARE_TOME));
-        else ((TTResearchItem) research).setPages(new ResearchPage("0"));
+        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(
+                LibResearch.KEY_SHARE_TOME,
+                new AspectList(),
+                0,
+                -1,
+                0,
+                new ItemStack(this)).setStub().setAutoUnlock().setRound();
+        if (ConfigHandler.enableSurvivalShareTome) ((TTResearchItem) research)
+                .setPages(new ResearchPage("0"), ResearchHelper.recipePage(LibResearch.KEY_SHARE_TOME));
+        else((TTResearchItem) research).setPages(new ResearchPage("0"));
         return research;
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         if (ConfigHandler.enableSurvivalShareTome) {
-            return new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_SHARE_TOME, new ItemStack(this),
-                    " S ", "PTP", " P ",
-                    'S', new ItemStack(ConfigItems.itemInkwell),
-                    'T', new ItemStack(ConfigItems.itemThaumonomicon),
-                    'P', new ItemStack(Items.paper));
+            return new ThaumicTinkererCraftingBenchRecipe(
+                    LibResearch.KEY_SHARE_TOME,
+                    new ItemStack(this),
+                    " S ",
+                    "PTP",
+                    " P ",
+                    'S',
+                    new ItemStack(ConfigItems.itemInkwell),
+                    'T',
+                    new ItemStack(ConfigItems.itemThaumonomicon),
+                    'P',
+                    new ItemStack(Items.paper));
         }
         return null;
     }
@@ -76,16 +90,14 @@ public class ItemShareBook extends ItemBase {
             setPlayerResearch(par1ItemStack, par3EntityPlayer.getGameProfile().getName());
             if (!par2World.isRemote)
                 par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.write"));
-        } else sync:{
+        } else sync: {
             List<String> researchesDone = ResearchManager.getResearchForPlayer(name);
 
             if (researchesDone == null) {
-                if (par2World.isRemote)
-                    researchesDone = getPlayerResearch(par1ItemStack);
+                if (par2World.isRemote) researchesDone = getPlayerResearch(par1ItemStack);
                 else {
                     par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.sync"));
                     break sync;
-
                 }
             }
 
@@ -102,8 +114,7 @@ public class ItemShareBook extends ItemBase {
     private List<String> getPlayerResearch(ItemStack par1ItemStack) {
         List<String> retVals = new ArrayList<String>();
         NBTTagCompound cmp = ItemNBTHelper.getNBT(par1ItemStack);
-        if (!cmp.hasKey("research"))
-            return retVals;
+        if (!cmp.hasKey("research")) return retVals;
         NBTTagList list = cmp.getTagList("research", Constants.NBT.TAG_STRING);
         for (int i = 0; i < list.tagCount(); i++) {
 
@@ -122,7 +133,9 @@ public class ItemShareBook extends ItemBase {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         String name = getPlayerName(par1ItemStack);
-        par3List.add(name.equals(NON_ASIGNED) ? StatCollector.translateToLocal("ttmisc.shareTome.noAssign") : String.format(StatCollector.translateToLocal("ttmisc.shareTome.playerName"), name));
+        par3List.add(
+                name.equals(NON_ASIGNED) ? StatCollector.translateToLocal("ttmisc.shareTome.noAssign")
+                        : String.format(StatCollector.translateToLocal("ttmisc.shareTome.playerName"), name));
     }
 
     @Override
@@ -146,12 +159,10 @@ public class ItemShareBook extends ItemBase {
             list.appendTag(new NBTTagString(tag));
         }
         cmp.setTag("research", list);
-
     }
 
     @Override
     public String getItemName() {
         return LibItemNames.SHARE_BOOK;
     }
-
 }

@@ -1,21 +1,19 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [8 Sep 2013, 15:59:00 (GMT)]
  */
 package thaumic.tinkerer.common.block.quartz;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,6 +23,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.BlockMod;
@@ -37,12 +38,10 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipeMulti;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BlockDarkQuartz extends BlockMod {
 
-    private static final String[] iconNames = new String[]{"darkQuartz0", "chiseledDarkQuartz0", "pillarDarkQuartz0", null, null};
+    private static final String[] iconNames = new String[] { "darkQuartz0", "chiseledDarkQuartz0", "pillarDarkQuartz0",
+            null, null };
     private IIcon[] darkQuartzIcons;
     private IIcon chiseledDarkQuartzIcon;
     private IIcon pillarDarkQuartzIcon;
@@ -59,21 +58,21 @@ public class BlockDarkQuartz extends BlockMod {
     public IIcon getIcon(int par1, int par2) {
         if (par2 != 2 && par2 != 3 && par2 != 4) {
             if (par1 != 1 && (par1 != 0 || par2 != 1)) {
-                if (par1 == 0)
-                    return darkQuartzTopIcon;
+                if (par1 == 0) return darkQuartzTopIcon;
                 else {
-                    if (par2 < 0 || par2 >= darkQuartzIcons.length)
-                        par2 = 0;
+                    if (par2 < 0 || par2 >= darkQuartzIcons.length) par2 = 0;
 
                     return darkQuartzIcons[par2];
                 }
             } else return par2 == 1 ? chiseledDarkQuartzIcon : darkQuartzTopIcon;
-        } else
-            return par2 == 2 && (par1 == 1 || par1 == 0) ? pillarDarkQuartzIcon : par2 == 3 && (par1 == 5 || par1 == 4) ? pillarDarkQuartzIcon : par2 == 4 && (par1 == 2 || par1 == 3) ? pillarDarkQuartzIcon : darkQuartzIcons[par2];
+        } else return par2 == 2 && (par1 == 1 || par1 == 0) ? pillarDarkQuartzIcon
+                : par2 == 3 && (par1 == 5 || par1 == 4) ? pillarDarkQuartzIcon
+                        : par2 == 4 && (par1 == 2 || par1 == 3) ? pillarDarkQuartzIcon : darkQuartzIcons[par2];
     }
 
     @Override
-    public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9) {
+    public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7,
+            float par8, int par9) {
         if (par9 == 2) {
             switch (par5) {
                 case 0:
@@ -122,8 +121,7 @@ public class BlockDarkQuartz extends BlockMod {
         darkQuartzIcons = new IIcon[iconNames.length];
 
         for (int i = 0; i < darkQuartzIcons.length; ++i) {
-            if (iconNames[i] == null)
-                darkQuartzIcons[i] = darkQuartzIcons[i - 1];
+            if (iconNames[i] == null) darkQuartzIcons[i] = darkQuartzIcons[i - 1];
             else darkQuartzIcons[i] = IconHelper.forName(par1IconRegister, iconNames[i]);
         }
 
@@ -170,16 +168,26 @@ public class BlockDarkQuartz extends BlockMod {
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         return new ThaumicTinkererRecipeMulti(
-
-                new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_DARK_QUARTZ + 1, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class)),
-                        "QQ", "QQ",
-                        'Q', ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class)),
-                new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_DARK_QUARTZ + 3, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 2, 2),
-                        "Q", "Q",
-                        'Q', ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class)),
-                new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_DARK_QUARTZ + 4, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 1, 1),
-                        "Q", "Q",
-                        'Q', ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class))
-        );
+                new ThaumicTinkererCraftingBenchRecipe(
+                        LibResearch.KEY_DARK_QUARTZ + 1,
+                        new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class)),
+                        "QQ",
+                        "QQ",
+                        'Q',
+                        ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class)),
+                new ThaumicTinkererCraftingBenchRecipe(
+                        LibResearch.KEY_DARK_QUARTZ + 3,
+                        new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 2, 2),
+                        "Q",
+                        "Q",
+                        'Q',
+                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class)),
+                new ThaumicTinkererCraftingBenchRecipe(
+                        LibResearch.KEY_DARK_QUARTZ + 4,
+                        new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 1, 1),
+                        "Q",
+                        "Q",
+                        'Q',
+                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class)));
     }
 }

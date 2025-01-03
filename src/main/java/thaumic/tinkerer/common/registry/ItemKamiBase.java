@@ -4,6 +4,7 @@ import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 public abstract class ItemKamiBase extends ItemBase {
+
     @Override
     public boolean shouldRegister() {
         return ConfigHandler.enableKami;

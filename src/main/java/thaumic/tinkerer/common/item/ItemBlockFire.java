@@ -1,17 +1,23 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IIcon;
+
 import thaumic.tinkerer.client.core.helper.IconHelper;
-import thaumic.tinkerer.common.block.fire.*;
+import thaumic.tinkerer.common.block.fire.BlockFireAir;
+import thaumic.tinkerer.common.block.fire.BlockFireChaos;
+import thaumic.tinkerer.common.block.fire.BlockFireEarth;
+import thaumic.tinkerer.common.block.fire.BlockFireIgnis;
+import thaumic.tinkerer.common.block.fire.BlockFireOrder;
+import thaumic.tinkerer.common.block.fire.BlockFireWater;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemBlockFire extends ItemBlock implements ITTinkererItem {
 

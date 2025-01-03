@@ -1,15 +1,18 @@
 package thaumic.tinkerer.common.block;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.research.ResearchManager;
@@ -25,23 +28,18 @@ import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * Created by pixlepix on 4/14/14.
  */
 public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
 
-
-    //Code based off vanilla potato code
-
+    // Code based off vanilla potato code
 
     public static final int BREEDING_CHANCE = 10;
     private IIcon[][] icons;
     private TileInfusedGrain tileEntity;
 
-    //Returns 0-5 for primal aspects, or 6 if compound aspect
+    // Returns 0-5 for primal aspects, or 6 if compound aspect
     public static int getNumberFromAspectForTexture(Aspect aspect) {
         if (aspect == Aspect.AIR) {
             return 0;
@@ -65,7 +63,9 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     }
 
     public static Aspect getAspect(IBlockAccess world, int x, int y, int z) {
-        return world.getTileEntity(x, y, z) instanceof TileInfusedGrain ? ((TileInfusedGrain) world.getTileEntity(x, y, z)).aspect : null;
+        return world.getTileEntity(x, y, z) instanceof TileInfusedGrain
+                ? ((TileInfusedGrain) world.getTileEntity(x, y, z)).aspect
+                : null;
     }
 
     public static void setAspect(IBlockAccess world, int x, int y, int z, Aspect aspect) {
@@ -86,7 +86,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         }
     }
 
-    //Override BlockCrop's getIcon to prevent a crash with mods such as WAILA
+    // Override BlockCrop's getIcon to prevent a crash with mods such as WAILA
     @Override
     public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return this.icons[1][0];
@@ -105,7 +105,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister) {
         icons = new IIcon[7][4];
-        String[] names = {"aer", "ignis", "aqua", "terra", "ordo", "perditio", "generic"};
+        String[] names = { "aer", "ignis", "aqua", "terra", "ordo", "perditio", "generic" };
         for (int j = 0; j < names.length; j++) {
             String s = names[j];
             for (int i = 0; i < 4; i++) {
@@ -118,7 +118,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileInfusedGrain) {
-            tileEntity = (TileInfusedGrain)tile;
+            tileEntity = (TileInfusedGrain) tile;
         }
         super.breakBlock(world, x, y, z, block, metadata);
     }
@@ -126,8 +126,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        if(world==null)
-            return ret;
+        if (world == null) return ret;
         Random rand = new Random();
         int count = 1;
         for (int i = 0; i < count; i++) {
@@ -146,9 +145,8 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         if (metadata >= 7) {
             do {
                 Aspect aspect = getAspectSafe(world, x, y, z);
-                ItemStack retItem=AspectCropLootManager.getLootForAspect(aspect);
-                if(retItem!=null)
-                    ret.add(retItem);
+                ItemStack retItem = AspectCropLootManager.getLootForAspect(aspect);
+                if (retItem != null) ret.add(retItem);
 
             } while (world.rand.nextInt(75) < getPrimalTendencyCount(world, x, y, z, Aspect.ORDER));
         }
@@ -175,10 +173,9 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         }
     }
 
-
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        //Prevent normal growth from occuring
-        //Growth takes place in the tile entity
+        // Prevent normal growth from occuring
+        // Growth takes place in the tile entity
         checkAndDropBlock(world, x, y, z);
     }
 
@@ -189,7 +186,9 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
                 AspectList farmlandAspectList = ((TileInfusedFarmland) world.getTileEntity(x, y - 1, z)).aspectList;
                 for (Aspect aspect : farmlandAspectList.getAspects()) {
                     Random rand = new Random();
-                    if (rand.nextInt(BREEDING_CHANCE) < (getPrimalTendencyCount(world, x, y, z, Aspect.FIRE) + 1) * farmlandAspectList.getAmount(aspect) * farmlandAspectList.getAmount(aspect)) {
+                    if (rand.nextInt(BREEDING_CHANCE) < (getPrimalTendencyCount(world, x, y, z, Aspect.FIRE) + 1)
+                            * farmlandAspectList.getAmount(aspect)
+                            * farmlandAspectList.getAmount(aspect)) {
                         if (ResearchManager.getCombinationResult(aspect, currentAspect) != null) {
                             return ResearchManager.getCombinationResult(aspect, currentAspect);
                         }
@@ -250,17 +249,15 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         return null;
     }
 
-    private TileInfusedGrain getTileEntitySafe(World world, int x, int y, int z)
-    {
+    private TileInfusedGrain getTileEntitySafe(World world, int x, int y, int z) {
         if (tileEntity != null) {
             return tileEntity;
         }
 
         TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileInfusedGrain)
-        {
-            return (TileInfusedGrain)tile;
+        if (tile != null && tile instanceof TileInfusedGrain) {
+            return (TileInfusedGrain) tile;
         }
 
         return null;
@@ -273,12 +270,10 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
 
         TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileInfusedGrain)
-        {
-            return ((TileInfusedGrain)tile).aspect;
+        if (tile != null && tile instanceof TileInfusedGrain) {
+            return ((TileInfusedGrain) tile).aspect;
         }
 
         return null;
     }
-
 }

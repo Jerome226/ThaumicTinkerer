@@ -6,6 +6,7 @@ import net.minecraft.potion.Potion;
  * Created by pixlepix on 4/19/14.
  */
 public class DummyPotions extends Potion {
+
     public DummyPotions(int par1, boolean par2, int par3) {
         super(par1, par2, par3);
     }

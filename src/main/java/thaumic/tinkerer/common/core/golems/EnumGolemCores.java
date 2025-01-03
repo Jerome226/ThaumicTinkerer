@@ -1,6 +1,7 @@
 package thaumic.tinkerer.common.core.golems;
 
 public enum EnumGolemCores {
+
     CoreFill((byte) 0, "item.ItemGolemCore.0.name"),
     CoreEmpty((byte) 1, "item.ItemGolemCore.1.name"),
     CoreGather((byte) 2, "item.ItemGolemCore.2.name"),

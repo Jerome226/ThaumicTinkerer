@@ -1,13 +1,10 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [8 Sep 2013, 19:36:25 (GMT)]
@@ -27,26 +24,22 @@ public final class ItemNBTHelper {
     }
 
     /**
-     * Tries to initialize an NBT Tag Compound in an ItemStack,
-     * this will not do anything if the stack already has a tag
+     * Tries to initialize an NBT Tag Compound in an ItemStack, this will not do anything if the stack already has a tag
      * compound *
      */
     public static void initNBT(ItemStack stack) {
-        if (!detectNBT(stack))
-            injectNBT(stack, new NBTTagCompound());
+        if (!detectNBT(stack)) injectNBT(stack, new NBTTagCompound());
     }
 
     /**
-     * Injects an NBT Tag Compound to an ItemStack, no checks
-     * are made previously *
+     * Injects an NBT Tag Compound to an ItemStack, no checks are made previously *
      */
     public static void injectNBT(ItemStack stack, NBTTagCompound nbt) {
         stack.setTagCompound(nbt);
     }
 
     /**
-     * Gets the NBTTagCompound in an ItemStack. Tries to init it
-     * previously in case there isn't one present *
+     * Gets the NBTTagCompound in an ItemStack. Tries to init it previously in case there isn't one present *
      */
     public static NBTTagCompound getNBT(ItemStack stack) {
         initNBT(stack);
@@ -88,9 +81,9 @@ public final class ItemNBTHelper {
             getNBT(stack).setTag(tag, cmp);
     }
 
-    //public static void setCompound(ItemStack stack, NBTTagCompound cmp) {
-    //	setCompound(stack, cmp, cmp);
-    //}
+    // public static void setCompound(ItemStack stack, NBTTagCompound cmp) {
+    // setCompound(stack, cmp, cmp);
+    // }
 
     public static void setString(ItemStack stack, String tag, String s) {
         getNBT(stack).setString(tag, s);
@@ -131,15 +124,14 @@ public final class ItemNBTHelper {
     }
 
     /**
-     * If nullifyOnFail is true it'll return null if it doesn't find any
-     * compounds, otherwise it'll return a new one. *
+     * If nullifyOnFail is true it'll return null if it doesn't find any compounds, otherwise it'll return a new one. *
      */
     public static NBTTagCompound getCompound(ItemStack stack, String tag, boolean nullifyOnFail) {
-        return verifyExistance(stack, tag) ? getNBT(stack).getCompoundTag(tag) : nullifyOnFail ? null : new NBTTagCompound();
+        return verifyExistance(stack, tag) ? getNBT(stack).getCompoundTag(tag)
+                : nullifyOnFail ? null : new NBTTagCompound();
     }
 
     public static String getString(ItemStack stack, String tag, String defaultExpected) {
         return verifyExistance(stack, tag) ? getNBT(stack).getString(tag) : defaultExpected;
     }
-
 }

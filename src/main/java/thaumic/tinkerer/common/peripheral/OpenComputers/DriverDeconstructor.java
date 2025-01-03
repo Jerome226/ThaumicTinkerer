@@ -1,17 +1,19 @@
 package thaumic.tinkerer.common.peripheral.OpenComputers;
 
+import net.minecraft.world.World;
+
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.ManagedEnvironment;
 import li.cil.oc.api.prefab.DriverTileEntity;
-import net.minecraft.world.World;
 import thaumcraft.common.tiles.TileDeconstructionTable;
 
 /**
  * Created by Katrina on 22/04/14.
  */
 public class DriverDeconstructor extends DriverTileEntity {
+
     @Override
     public Class<?> getTileEntityClass() {
         return TileDeconstructionTable.class;
@@ -30,18 +32,17 @@ public class DriverDeconstructor extends DriverTileEntity {
 
         @Callback(doc = "function():boolean -- returns if the table has an aspect waiting")
         public Object[] hasAspect(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.aspect != null};
+            return new Object[] { this.tileEntity.aspect != null };
         }
 
         @Callback(doc = "function():boolean -- returns if the table has an item in the slot")
         public Object[] hasItem(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.getStackInSlot(0) != null};
+            return new Object[] { this.tileEntity.getStackInSlot(0) != null };
         }
 
         @Callback(doc = "function():string -- returns aspect in the deconstructor")
         public Object[] getAspect(final Context context, final Arguments arguments) {
-            return this.tileEntity.aspect != null ? new Object[]{tileEntity.aspect.getTag()} : null;
+            return this.tileEntity.aspect != null ? new Object[] { tileEntity.aspect.getTag() } : null;
         }
-
     }
 }

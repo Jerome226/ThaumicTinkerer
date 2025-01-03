@@ -1,11 +1,14 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
@@ -14,8 +17,6 @@ import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.registry.ItemBase;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.List;
 
 /**
  * Created by pixlepix on 4/22/14.
@@ -86,24 +87,23 @@ public class ItemInfusedGrain extends ItemBase implements IEssentiaContainerItem
 
     @Override
     public AspectList getAspects(ItemStack itemStack) {
-        return new AspectList().add(getAspect(itemStack),1).add(Aspect.CROP,1);
+        return new AspectList().add(getAspect(itemStack), 1).add(Aspect.CROP, 1);
     }
 
     @Override
-    public void setAspects(ItemStack itemStack, AspectList aspectList) {
-
-    }
+    public void setAspects(ItemStack itemStack, AspectList aspectList) {}
 
     private enum PRIMAL_ASPECT_ENUM {
+
         AIR(Aspect.AIR),
         FIRE(Aspect.FIRE),
         EARTH(Aspect.EARTH),
         WATER(Aspect.WATER);
+
         Aspect aspect;
 
         PRIMAL_ASPECT_ENUM(Aspect a) {
             this.aspect = a;
         }
     }
-
 }

@@ -1,35 +1,36 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [9 Sep 2013, 15:54:36 (GMT)]
  */
 package thaumic.tinkerer.common.block.tile.tablet;
 
-import com.mojang.authlib.GameProfile;
+import java.util.UUID;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-import thaumcraft.common.lib.FakeThaumcraftPlayer;
 
-import java.util.UUID;
+import com.mojang.authlib.GameProfile;
+
+import thaumcraft.common.lib.FakeThaumcraftPlayer;
 
 public class TabletFakePlayer extends FakeThaumcraftPlayer {
 
     TileAnimationTablet tablet;
 
-    public TabletFakePlayer(TileAnimationTablet tablet) { //,String name) {
-        super(tablet.getWorldObj(), new GameProfile(UUID.fromString("a8f026a0-135b-11e4-9191-0800200c9a66"), "[ThaumcraftTablet]"));
-        //super(tablet.getWorldObj(),"[ThaumcraftTablet]");
+    public TabletFakePlayer(TileAnimationTablet tablet) { // ,String name) {
+        super(
+                tablet.getWorldObj(),
+                new GameProfile(UUID.fromString("a8f026a0-135b-11e4-9191-0800200c9a66"), "[ThaumcraftTablet]"));
+        // super(tablet.getWorldObj(),"[ThaumcraftTablet]");
         this.tablet = tablet;
     }
 
@@ -52,10 +53,8 @@ public class TabletFakePlayer extends FakeThaumcraftPlayer {
         posY = tablet.yCoord + 1.6;
         posZ = tablet.zCoord + 0.5;
 
-        if (riddenByEntity != null)
-            riddenByEntity.ridingEntity = null;
-        if (ridingEntity != null)
-            ridingEntity.riddenByEntity = null;
+        if (riddenByEntity != null) riddenByEntity.ridingEntity = null;
+        if (ridingEntity != null) ridingEntity.riddenByEntity = null;
         riddenByEntity = null;
         ridingEntity = null;
 
@@ -80,13 +79,10 @@ public class TabletFakePlayer extends FakeThaumcraftPlayer {
     }
 
     @Override
-    public void addChatMessage(IChatComponent var1) {
-
-    }
+    public void addChatMessage(IChatComponent var1) {}
 
     @Override
     public ChunkCoordinates getPlayerCoordinates() {
         return new ChunkCoordinates(tablet.xCoord, tablet.yCoord, tablet.zCoord);
     }
-
 }

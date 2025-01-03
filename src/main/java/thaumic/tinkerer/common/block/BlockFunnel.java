@@ -1,21 +1,19 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [28 Sep 2013, 19:33:05 (GMT)]
  */
 package thaumic.tinkerer.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -30,6 +28,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -43,9 +44,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BlockFunnel extends BlockModContainer {
 
@@ -118,21 +116,26 @@ public class BlockFunnel extends BlockModContainer {
                     float f1 = random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World
+                            .spawnEntityInWorld(entityitem)) {
                         int k1 = random.nextInt(21) + 10;
 
-                        if (k1 > itemstack.stackSize)
-                            k1 = itemstack.stackSize;
+                        if (k1 > itemstack.stackSize) k1 = itemstack.stackSize;
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(
+                                par1World,
+                                par2 + f,
+                                par3 + f1,
+                                par4 + f2,
+                                new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) random.nextGaussian() * f3;
                         entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
                         entityitem.motionZ = (float) random.nextGaussian() * f3;
 
-                        if (itemstack.hasTagCompound())
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        if (itemstack.hasTagCompound()) entityitem.getEntityItem()
+                                .setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
                     }
                 }
             }
@@ -144,7 +147,8 @@ public class BlockFunnel extends BlockModContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer,
+            int par6, float par7, float par8, float par9) {
         TileFunnel funnel = (TileFunnel) par1World.getTileEntity(par2, par3, par4);
         ItemStack stack = funnel.getStackInSlot(0);
 
@@ -207,16 +211,29 @@ public class BlockFunnel extends BlockModContainer {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_FUNNEL, new AspectList().add(Aspect.TOOL, 1).add(Aspect.TRAVEL, 2), 0, -7, 1, new ItemStack(this)).setParentsHidden("DISTILESSENTIA").setParents(LibResearch.KEY_BRIGHT_NITOR).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_FUNNEL)).setSecondary();
-
+        return (IRegisterableResearch) new TTResearchItem(
+                LibResearch.KEY_FUNNEL,
+                new AspectList().add(Aspect.TOOL, 1).add(Aspect.TRAVEL, 2),
+                0,
+                -7,
+                1,
+                new ItemStack(this)).setParentsHidden("DISTILESSENTIA").setParents(LibResearch.KEY_BRIGHT_NITOR)
+                        .setConcealed()
+                        .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_FUNNEL))
+                        .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_FUNNEL, LibResearch.KEY_FUNNEL, new ItemStack(this), new AspectList().add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1),
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_FUNNEL,
+                LibResearch.KEY_FUNNEL,
+                new ItemStack(this),
+                new AspectList().add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1),
                 "STS",
-                'S', new ItemStack(Blocks.stone),
-                'T', new ItemStack(ConfigItems.itemResource, 1, 2));
+                'S',
+                new ItemStack(Blocks.stone),
+                'T',
+                new ItemStack(ConfigItems.itemResource, 1, 2));
     }
 }

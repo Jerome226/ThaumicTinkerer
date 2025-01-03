@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.dim;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -10,6 +8,9 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public class WorldProviderBedrock extends WorldProvider {
@@ -109,7 +110,7 @@ public class WorldProviderBedrock extends WorldProvider {
         if ((f3 >= f4 - f2) && (f3 <= f4 + f2)) {
             float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
             float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * 3.141593F)) * 0.99F;
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             f6 *= f6;
             this.colorsSunriseSunset[0] = (f5 * 0.3F + 0.7F);
             this.colorsSunriseSunset[1] = (f5 * f5 * 0.7F + 0.2F);

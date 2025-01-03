@@ -1,6 +1,7 @@
 package thaumic.tinkerer.common.registry;
 
 import net.minecraft.item.ItemStack;
+
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
@@ -15,7 +16,8 @@ public class ThaumicTinkererArcaneRecipe extends ThaumicTinkererRecipe {
     public AspectList aspects;
     public Object[] recipies;
 
-    public ThaumicTinkererArcaneRecipe(String name, String research, ItemStack output, AspectList aspects, Object... stuff) {
+    public ThaumicTinkererArcaneRecipe(String name, String research, ItemStack output, AspectList aspects,
+            Object... stuff) {
         this.name = name;
         this.research = research;
         this.output = output;

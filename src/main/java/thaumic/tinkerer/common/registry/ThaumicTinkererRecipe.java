@@ -2,6 +2,7 @@ package thaumic.tinkerer.common.registry;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public abstract class ThaumicTinkererRecipe {
@@ -11,5 +12,4 @@ public abstract class ThaumicTinkererRecipe {
     }
 
     public abstract void registerRecipe();
-
 }

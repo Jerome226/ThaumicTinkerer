@@ -1,18 +1,17 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [Nov 24, 2013, 6:48:04 PM (GMT)]
  */
 package thaumic.tinkerer.common.block.tile.transvector;
+
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,14 +22,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.transvector.BlockTransvectorDislocator;
 import thaumic.tinkerer.common.lib.LibFeatures;
-
-import java.util.List;
 
 public class TileTransvectorDislocator extends TileTransvector {
 
@@ -53,8 +51,7 @@ public class TileTransvectorDislocator extends TileTransvector {
     public void receiveRedstonePulse() {
         getTile(); // sanity check
 
-        if (y < 0)
-            return;
+        if (y < 0) return;
 
         if (cooldown > 0) {
             pulseStored = true;
@@ -79,18 +76,13 @@ public class TileTransvectorDislocator extends TileTransvector {
                 endData.setTo(targetCoords);
                 targetData.setTo(endCoords);
 
-
-
-
                 endData.notify(targetCoords);
                 targetData.notify(endCoords);
             }
         }
 
-        for (Entity entity : entitiesAtEnd)
-            moveEntity(entity, endToTarget);
-        for (Entity entity : entitiesAtTarget)
-            moveEntity(entity, targetToEnd);
+        for (Entity entity : entitiesAtEnd) moveEntity(entity, endToTarget);
+        for (Entity entity : entitiesAtTarget) moveEntity(entity, targetToEnd);
 
         cooldown = 10;
     }
@@ -99,21 +91,38 @@ public class TileTransvectorDislocator extends TileTransvector {
         Block block = worldObj.getBlock(coords.posX, coords.posY, coords.posZ);
         int meta = worldObj.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
-        return !(block == ConfigBlocks.blockAiry && meta == 0) && !ThaumcraftApi.portableHoleBlackList.contains(block) && block != null && block.getBlockHardness(worldObj, coords.posX, coords.posY, coords.posZ) != -1F || block != Blocks.air;
+        return !(block == ConfigBlocks.blockAiry && meta == 0) && !ThaumcraftApi.portableHoleBlackList.contains(block)
+                && block != null
+                && block.getBlockHardness(worldObj, coords.posX, coords.posY, coords.posZ) != -1F
+                || block != Blocks.air;
     }
 
     private List<Entity> getEntitiesAtPoint(ChunkCoordinates coords) {
-        return worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(coords.posX, coords.posY, coords.posZ, coords.posX + 1, coords.posY + 1, coords.posZ + 1));
+        return worldObj.getEntitiesWithinAABB(
+                Entity.class,
+                AxisAlignedBB.getBoundingBox(
+                        coords.posX,
+                        coords.posY,
+                        coords.posZ,
+                        coords.posX + 1,
+                        coords.posY + 1,
+                        coords.posZ + 1));
     }
 
     private Vector3 asVector(ChunkCoordinates source, ChunkCoordinates target) {
-        return new Vector3(target.posX, target.posY, target.posZ).subtract(new Vector3(source.posX, source.posY, source.posZ));
+        return new Vector3(target.posX, target.posY, target.posZ)
+                .subtract(new Vector3(source.posX, source.posY, source.posZ));
     }
 
     private void moveEntity(Entity entity, Vector3 vec) {
         if (entity instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) entity;
-            player.playerNetServerHandler.setPlayerLocation(entity.posX + vec.x, entity.posY + vec.y, entity.posZ + vec.z, player.rotationYaw, player.rotationPitch);
+            player.playerNetServerHandler.setPlayerLocation(
+                    entity.posX + vec.x,
+                    entity.posY + vec.y,
+                    entity.posZ + vec.z,
+                    player.rotationYaw,
+                    player.rotationPitch);
         } else entity.setPosition(entity.posX + vec.x, entity.posY + vec.y, entity.posZ + vec.z);
     }
 
@@ -162,14 +171,17 @@ public class TileTransvectorDislocator extends TileTransvector {
                 NBTTagCompound cmp = new NBTTagCompound();
                 tile.writeToNBT(cmp);
                 this.tile = cmp;
-            }
-            ;
+            } ;
 
             this.coords = coords;
         }
 
         public BlockData(ChunkCoordinates coords) {
-            this(worldObj.getBlock(coords.posX, coords.posY, coords.posZ), worldObj.getBlockMetadata(coords.posX, coords.posY, coords.posZ), worldObj.getTileEntity(coords.posX, coords.posY, coords.posZ), coords);
+            this(
+                    worldObj.getBlock(coords.posX, coords.posY, coords.posZ),
+                    worldObj.getBlockMetadata(coords.posX, coords.posY, coords.posZ),
+                    worldObj.getTileEntity(coords.posX, coords.posY, coords.posZ),
+                    coords);
         }
 
         public void clearTileEntityAt() {
@@ -193,19 +205,21 @@ public class TileTransvectorDislocator extends TileTransvector {
                 tile.updateContainingBlockInfo();
             }
 
-            //if (block != null)
-            //	block.onNeighborBlockChange(worldObj, coords.posX, coords.posY, coords.posZ, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class));
+            // if (block != null)
+            // block.onNeighborBlockChange(worldObj, coords.posX, coords.posY, coords.posZ,
+            // ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class));
 
             worldObj.setBlockMetadataWithNotify(coords.posX, coords.posY, coords.posZ, meta, 2);
-
         }
 
         public void notify(ChunkCoordinates coords) {
 
-            if (block != null)
-                block.onNeighborBlockChange(worldObj, coords.posX, coords.posY, coords.posZ, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class));
-
+            if (block != null) block.onNeighborBlockChange(
+                    worldObj,
+                    coords.posX,
+                    coords.posY,
+                    coords.posZ,
+                    ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class));
         }
     }
-
 }

@@ -1,7 +1,8 @@
 package thaumic.tinkerer.client.core.handler.kami;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.util.StatCollector;
+
+import cpw.mods.fml.client.FMLClientHandler;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.network.packet.kami.PacketToggleArmor;
 
@@ -14,10 +15,8 @@ public class KamiArmorClientHandler {
 
     public static void SetStatus(boolean status) {
         if (FMLClientHandler.instance().getClient().currentScreen == null) {
-            if (status)
-                ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.enableAllArmor"));
-            else
-                ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.disableAllArmor"));
+            if (status) ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.enableAllArmor"));
+            else ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.disableAllArmor"));
             ArmorEnabled = status;
             ThaumicTinkerer.netHandler.sendToServer(new PacketToggleArmor(status));
         }

@@ -1,24 +1,22 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  * <p>
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  * <p>
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  * <p>
  * File Created @ [8 Sep 2013, 16:53:14 (GMT)]
  */
 package thaumic.tinkerer.common.research;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchItem;
@@ -31,9 +29,9 @@ public class TTResearchItem extends ResearchItem implements IRegisterableResearc
 
     public int warp = 0;
     /**
-     * When ModTweaker scripts replace ThaumicTinkerer pages, it call {@link #setPages(ResearchPage...)}
-     * and if one of provided pages is text page,
-     * Thaumic Tinkerer will generate its own {@link ResearchPage#text} adding prefixes to the existing one that breaks localization.
+     * When ModTweaker scripts replace ThaumicTinkerer pages, it call {@link #setPages(ResearchPage...)} and if one of
+     * provided pages is text page, Thaumic Tinkerer will generate its own {@link ResearchPage#text} adding prefixes to
+     * the existing one that breaks localization.
      * <p>
      * So this variable will prevent Thaumic Tinkerer from changing page's text that came from MineTweaker scripts.
      */
@@ -65,7 +63,8 @@ public class TTResearchItem extends ResearchItem implements IRegisterableResearc
     @Override
     @SideOnly(Side.CLIENT)
     public String getText() {
-        return (ConfigHandler.useTootlipIndicators ? StatCollector.translateToLocal(getPrefix()) : "") + StatCollector.translateToLocal("ttresearch.lore." + key);
+        return (ConfigHandler.useTootlipIndicators ? StatCollector.translateToLocal(getPrefix()) : "")
+                + StatCollector.translateToLocal("ttresearch.lore." + key);
     }
 
     String getPrefix() {
@@ -80,14 +79,12 @@ public class TTResearchItem extends ResearchItem implements IRegisterableResearc
             }
 
             if (checkInfusion() && page.type == PageType.INFUSION_CRAFTING) {
-                if (parentsHidden == null || parentsHidden.length == 0)
-                    parentsHidden = new String[]{"INFUSION"};
+                if (parentsHidden == null || parentsHidden.length == 0) parentsHidden = new String[] { "INFUSION" };
                 else {
                     String[] newParents = new String[parentsHidden.length + 1];
                     newParents[0] = "INFUSION";
-                    //noinspection ManualArrayCopy
-                    for (int i = 0; i < parentsHidden.length; i++)
-                        newParents[i + 1] = parentsHidden[i];
+                    // noinspection ManualArrayCopy
+                    for (int i = 0; i < parentsHidden.length; i++) newParents[i + 1] = parentsHidden[i];
                     parentsHidden = newParents;
                 }
             }

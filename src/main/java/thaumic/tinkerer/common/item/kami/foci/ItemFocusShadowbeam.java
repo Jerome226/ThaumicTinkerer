@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.item.kami.foci;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -13,6 +12,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import cpw.mods.fml.common.registry.EntityRegistry;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -36,23 +37,25 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class ItemFocusShadowbeam extends ItemModKamiFocus {
 
-    private static final AspectList visUsage = new AspectList().add(Aspect.ORDER, 25).add(Aspect.ENTROPY, 25).add(Aspect.AIR, 15);
+    private static final AspectList visUsage = new AspectList().add(Aspect.ORDER, ConfigHandler.visShadowbeamOrder)
+            .add(Aspect.ENTROPY, ConfigHandler.visShadowbeamEntropy).add(Aspect.AIR, ConfigHandler.visShadowbeamAir);
+
+    private static final int DAMAGE = ConfigHandler.baseDamageShadowbeam;
 
     public ItemFocusShadowbeam() {
         super();
 
         EntityRegistry.registerModEntity(Beam.class, "ShadowbeamStaffBeam", 0, ThaumicTinkerer.instance, 0, 0, false);
     }
-    
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTKSH" + super.getSortingHelper(itemstack);
+
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTKSH" + super.getSortingHelper(itemstack);
     }
 
     @Override
     public void onUsingFocusTick(ItemStack stack, EntityPlayer player, int count) {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-        int potency = wand.getFocusPotency(stack); //TODO verify effect
+        int potency = wand.getFocusPotency(stack);
 
         if (!player.worldObj.isRemote && wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
 
@@ -83,27 +86,23 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
     public AspectList getVisCost(ItemStack stack) {
         return visUsage;
     }
-    
+
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank)
-    {
-      switch (rank)
-      {
-      case 1: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 2: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 3: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 4: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 5: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      }
-      return null;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        switch (rank) {
+            case 1:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 2:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 3:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 4:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 5:
+                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        }
+        return null;
     }
-
-
 
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {
@@ -117,24 +116,40 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_FOCUS_SHADOWBEAM, new AspectList().add(Aspect.DARKNESS, 2).add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1).add(Aspect.TAINT, 1), 14, 4, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ROD)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_SHADOWBEAM));
-
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                LibResearch.KEY_FOCUS_SHADOWBEAM,
+                new AspectList().add(Aspect.DARKNESS, 2).add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1)
+                        .add(Aspect.TAINT, 1),
+                14,
+                4,
+                5,
+                new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ROD)
+                        .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_SHADOWBEAM));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_FOCUS_SHADOWBEAM, new ItemStack(this), 12, new AspectList().add(Aspect.DARKNESS, 65).add(Aspect.ELDRITCH, 32).add(Aspect.MAGIC, 50).add(Aspect.WEAPON, 32), new ItemStack(ConfigItems.itemFocusShock),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(Items.arrow), new ItemStack(Items.diamond), new ItemStack(ConfigItems.itemFocusExcavation), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusDeflect.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_FOCUS_SHADOWBEAM,
+                new ItemStack(this),
+                12,
+                new AspectList().add(Aspect.DARKNESS, 65).add(Aspect.ELDRITCH, 32).add(Aspect.MAGIC, 50)
+                        .add(Aspect.WEAPON, 32),
+                new ItemStack(ConfigItems.itemFocusShock),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(Items.arrow),
+                new ItemStack(Items.diamond),
+                new ItemStack(ConfigItems.itemFocusExcavation),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusDeflect.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
     }
 
     public static class Particle extends FXSparkle {
 
-        public Particle(World world, double x, double y, double z, float scale, float red, float green, float blue, int maxAge) {
-            super(world,x, y, z, scale, red, green, blue, 1);
+        public Particle(World world, double x, double y, double z, float scale, float red, float green, float blue,
+                int maxAge) {
+            super(world, x, y, z, scale, red, green, blue, 1);
             this.particleMaxAge /= 3;
             this.particleMaxAge = maxAge;
             this.shrink = false;
@@ -144,34 +159,34 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
             this.slowdown = false;
             this.noClip = true;
             this.setGravity(-0.7f);
-//////////////////////////////////////////////////
-//        For more check the parent class
-//////////////////////////////////////////////////
-//        this.leyLineEffect = false;
-//        this.multiplier = 2;
-//        this.shrink = true;
-//        this.particle = 16;
-//        this.tinkle = false;
-//        this.blendmode = 1;
-//        this.slowdown = true;
-//        this.currentColor = 0;
-//        if(f1 == 0.0F) {
-//            f1 = 1.0F;
-//        }
-//        this.particleRed = f1;
-//        this.particleGreen = f2;
-//        this.particleBlue = f3;
-//        this.particleGravity = 0.0F;
-//        this.motionX = this.motionY = this.motionZ = 0.0D;
-//        this.particleScale *= f;
-//        this.particleMaxAge = 3 * m;
-//        this.multiplier = m;
-//        this.noClip = false;
-//        this.setSize(0.01F, 0.01F);
-//        this.prevPosX = this.posX;
-//        this.prevPosY = this.posY;
-//        this.prevPosZ = this.posZ;
-//////////////////////////////////////////////////
+            //////////////////////////////////////////////////
+            // For more check the parent class
+            //////////////////////////////////////////////////
+            // this.leyLineEffect = false;
+            // this.multiplier = 2;
+            // this.shrink = true;
+            // this.particle = 16;
+            // this.tinkle = false;
+            // this.blendmode = 1;
+            // this.slowdown = true;
+            // this.currentColor = 0;
+            // if(f1 == 0.0F) {
+            // f1 = 1.0F;
+            // }
+            // this.particleRed = f1;
+            // this.particleGreen = f2;
+            // this.particleBlue = f3;
+            // this.particleGravity = 0.0F;
+            // this.motionX = this.motionY = this.motionZ = 0.0D;
+            // this.particleScale *= f;
+            // this.particleMaxAge = 3 * m;
+            // this.multiplier = m;
+            // this.noClip = false;
+            // this.setSize(0.01F, 0.01F);
+            // this.prevPosX = this.posX;
+            // this.prevPosY = this.posY;
+            // this.prevPosZ = this.posZ;
+            //////////////////////////////////////////////////
         }
     }
 
@@ -180,7 +195,7 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
         private int initialOffset = 2;
         private int length = 298;
         private int maxTicks = initialOffset + length;
-        private int size = 4;
+        private int size = 2;
 
         private int potency;
         private Vector3 movementVector;
@@ -194,7 +209,6 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
             this.player = player;
             setProjectileVelocity(motionX / 10, motionY / 10, motionZ / 10);
             movementVector = new Vector3(motionX, motionY, motionZ);
-
         }
 
         // Copy of setVelocity, because that is client only for some reason
@@ -230,12 +244,18 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
 
         @Override
         protected void onImpact(MovingObjectPosition movingobjectposition) {
-            if (movingobjectposition == null)
-                return;
+            if (movingobjectposition == null) return;
 
             if (movingobjectposition.entityHit != null) {
-                if ((MinecraftServer.getServer().isPVPEnabled() || !(movingobjectposition.entityHit instanceof EntityPlayer)) && movingobjectposition.entityHit != getThrower() && getThrower() instanceof EntityPlayer && !movingobjectposition.entityHit.worldObj.isRemote)
-                    movingobjectposition.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) getThrower()), 8 + potency);
+                if ((MinecraftServer.getServer().isPVPEnabled()
+                        || !(movingobjectposition.entityHit instanceof EntityPlayer))
+                        && movingobjectposition.entityHit != getThrower()
+                        && getThrower() instanceof EntityPlayer
+                        && !movingobjectposition.entityHit.worldObj.isRemote) {
+                    int fullDamage = (potency > 0) ? (int) (DAMAGE + DAMAGE * (0.2 * potency)) : DAMAGE;
+                    movingobjectposition.entityHit
+                            .attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) getThrower()), fullDamage);
+                }
                 return;
             }
 
@@ -263,13 +283,11 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
 
             ++ticksExisted;
 
-            if (ticksExisted >= maxTicks)
-                setDead();
+            if (ticksExisted >= maxTicks) setDead();
         }
 
         public void updateUntilDead() {
-            while (!isDead)
-                onUpdate();
+            while (!isDead) onUpdate();
         }
 
         @Override

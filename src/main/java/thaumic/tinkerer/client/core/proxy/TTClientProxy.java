@@ -1,26 +1,16 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
- * part of the ThaumicTinkerer Mod.
+ * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
  *
- * ThaumicTinkerer is Open Source and distributed under a
- * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+ * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
  *
- * ThaumicTinkerer is a Derivative Work on Thaumcraft 4.
- * Thaumcraft 4 (c) Azanor 2012
+ * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
  *
  * File Created @ [4 Sep 2013, 16:33:54 (GMT)]
  */
 package thaumic.tinkerer.client.core.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -29,11 +19,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.EnumHelperClient;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumic.tinkerer.client.core.handler.ClientTickHandler;
 import thaumic.tinkerer.client.core.handler.GemArmorKeyHandler;
 import thaumic.tinkerer.client.core.handler.HUDHandler;
-
 import thaumic.tinkerer.client.core.handler.kami.KamiArmorClientHandler;
 import thaumic.tinkerer.client.core.handler.kami.PlacementMirrorPredictionRenderer;
 import thaumic.tinkerer.client.core.handler.kami.SoulHeartClientHandler;
@@ -47,7 +44,11 @@ import thaumic.tinkerer.client.render.block.kami.RenderWarpGate;
 import thaumic.tinkerer.client.render.item.RenderGenericSeeds;
 import thaumic.tinkerer.client.render.item.RenderMobDisplay;
 import thaumic.tinkerer.client.render.item.kami.RenderPlacementMirror;
-import thaumic.tinkerer.client.render.tile.*;
+import thaumic.tinkerer.client.render.tile.RenderTileAnimationTablet;
+import thaumic.tinkerer.client.render.tile.RenderTileEnchanter;
+import thaumic.tinkerer.client.render.tile.RenderTileFunnel;
+import thaumic.tinkerer.client.render.tile.RenderTileMagnet;
+import thaumic.tinkerer.client.render.tile.RenderTileRepairer;
 import thaumic.tinkerer.client.render.tile.kami.RenderTileWarpGate;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileEnchanter;
@@ -76,10 +77,15 @@ public class TTClientProxy extends TTCommonProxy {
         if (Loader.isModLoaded("ComputerCraft")) {
             MinecraftForge.EVENT_BUS.register(new FumeTool());
         }
-        
+
         if (ConfigHandler.enableKami)
-            //kamiRarity = EnumHelperClient.addRarity("KAMI", 0x6, "Kami");
-            kamiRarity = EnumHelperClient.addEnum(new Class[][]{{EnumRarity.class, EnumChatFormatting.class, String.class}}, EnumRarity.class, "KAMI", EnumChatFormatting.LIGHT_PURPLE, "Kami");
+            // kamiRarity = EnumHelperClient.addRarity("KAMI", 0x6, "Kami");
+            kamiRarity = EnumHelperClient.addEnum(
+                    new Class[][] { { EnumRarity.class, EnumChatFormatting.class, String.class } },
+                    EnumRarity.class,
+                    "KAMI",
+                    EnumChatFormatting.LIGHT_PURPLE,
+                    "Kami");
     }
 
     @Override
@@ -101,7 +107,6 @@ public class TTClientProxy extends TTCommonProxy {
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
         }
     }
-
 
     private void registerTiles() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileAnimationTablet.class, new RenderTileAnimationTablet());
@@ -125,22 +130,37 @@ public class TTClientProxy extends TTCommonProxy {
         RenderingRegistry.registerBlockHandler(new RenderMagnet());
         RenderingRegistry.registerBlockHandler(new RenderRepairer());
 
-        MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class), new RenderMobDisplay());
-        MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class), new RenderGenericSeeds());
+        MinecraftForgeClient.registerItemRenderer(
+                ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class),
+                new RenderMobDisplay());
+        MinecraftForgeClient.registerItemRenderer(
+                ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class),
+                new RenderGenericSeeds());
 
         if (ConfigHandler.enableKami) {
-            MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemPlacementMirror.class), new RenderPlacementMirror());
+            MinecraftForgeClient.registerItemRenderer(
+                    ThaumicTinkerer.registry.getFirstItemFromClass(ItemPlacementMirror.class),
+                    new RenderPlacementMirror());
 
             LibRenderIDs.idWarpGate = RenderingRegistry.getNextAvailableRenderId();
 
             RenderingRegistry.registerBlockHandler(new RenderWarpGate());
-            //KeyBindingRegistry.registerKeyBinding(new GemArmorKeyHandler());
+            // KeyBindingRegistry.registerKeyBinding(new GemArmorKeyHandler());
         }
     }
 
     @Override
     public void shadowSparkle(World world, float x, float y, float z, int size) {
-        ItemFocusShadowbeam.Particle fx = new ItemFocusShadowbeam.Particle(world, (double)x, (double)y, (double)z, size, 0.001f, 0.001f, 0.001f, 5);
+        ItemFocusShadowbeam.Particle fx = new ItemFocusShadowbeam.Particle(
+                world,
+                (double) x,
+                (double) y,
+                (double) z,
+                size,
+                0.001f,
+                0.001f,
+                0.001f,
+                5);
         ParticleEngine.instance.addEffect(world, fx);
     }
 
@@ -161,7 +181,6 @@ public class TTClientProxy extends TTCommonProxy {
     @Override
     public boolean armorStatus(EntityPlayer player) {
         return KamiArmorClientHandler.ArmorEnabled;
-
     }
 
     @Override
@@ -176,5 +195,4 @@ public class TTClientProxy extends TTCommonProxy {
     public EntityPlayer getClientPlayer() {
         return ClientHelper.clientPlayer();
     }
-
 }

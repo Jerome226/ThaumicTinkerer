@@ -1,8 +1,8 @@
 package thaumic.tinkerer.common.core.helper;
 
-import thaumcraft.api.aspects.Aspect;
-
 import java.util.ArrayList;
+
+import thaumcraft.api.aspects.Aspect;
 
 public class NumericAspectHelper {
 
@@ -37,7 +37,6 @@ public class NumericAspectHelper {
         new NumericAspectHelper(Aspect.SLIME);
         new NumericAspectHelper(Aspect.CLOTH);
         new NumericAspectHelper(Aspect.CROP);
-
     }
 
     public static int getNumber(Aspect aspect) {
@@ -57,5 +56,4 @@ public class NumericAspectHelper {
     public Aspect getAspect() {
         return aspect;
     }
-
 }
