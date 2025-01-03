@@ -11,10 +11,9 @@
  */
 package thaumic.tinkerer.common.block.tile;
 
-import cpw.mods.fml.common.Optional;
-
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -28,6 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -41,7 +41,8 @@ import thaumic.tinkerer.common.lib.LibBlockNames;
 /* import thaumic.tinkerer.common.compat.TinkersConstructCompat; */
 
 @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
-public class TileRepairer extends TileEntity implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
+public class TileRepairer extends TileEntity
+        implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
     private static final Map<Aspect, Integer> repairValues = new HashMap();
 

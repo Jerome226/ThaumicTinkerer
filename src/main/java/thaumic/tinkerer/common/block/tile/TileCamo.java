@@ -11,13 +11,14 @@
  */
 package thaumic.tinkerer.common.block.tile;
 
-import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.Optional;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+
+import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 

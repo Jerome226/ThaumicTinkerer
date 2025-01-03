@@ -12,7 +12,6 @@
 package thaumic.tinkerer.common.block.tile;
 
 import net.minecraft.block.BlockHopper;
-import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -27,6 +26,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;

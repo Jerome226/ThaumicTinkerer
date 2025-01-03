@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -48,7 +49,8 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
 
     private void setNearBrightNitor(EntityPlayer player) {
         ItemBrightNitor.meta = 1;
-        ((ItemBrightNitor) ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)).onUpdate(null, player.worldObj, player, 0, false);
+        ((ItemBrightNitor) ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class))
+                .onUpdate(null, player.worldObj, player, 0, false);
         ItemBrightNitor.meta = 0;
 
         int x = (int) Math.floor(player.posX);
@@ -70,10 +72,8 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
 
     private void addPotionEffect(EntityPlayer player, Potion potion, int duration, int level) {
         PotionEffect effect = player.getActivePotionEffect(potion);
-        if (effect != null && effect.duration < duration)
-            effect.duration = duration;
-        else
-            player.addPotionEffect(new PotionEffect(potion.id, duration, level, true));
+        if (effect != null && effect.duration < duration) effect.duration = duration;
+        else player.addPotionEffect(new PotionEffect(potion.id, duration, level, true));
     }
 
     @Override

@@ -1,11 +1,11 @@
 package thaumic.tinkerer.common.block.tile;
 
-import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.Optional;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 
 @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
@@ -146,7 +146,6 @@ public class TileEntityRelay extends TileEntity implements IMovableTile {
 
     @Override
     @Optional.Method(modid = "appliedenergistics2")
-    public void doneMoving() {
-    }
+    public void doneMoving() {}
 
 }

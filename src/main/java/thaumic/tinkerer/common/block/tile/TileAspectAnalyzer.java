@@ -36,14 +36,9 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
+@Optional.InterfaceList({ @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
-        @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
-})
+        @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2") })
 
 public class TileAspectAnalyzer extends TileEntity implements IInventory, SimpleComponent, IPeripheral, IMovableTile {
 
@@ -248,7 +243,6 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
     public void doneMoving() {
 
     }
-
 
     @Override
     public String getComponentName() {
